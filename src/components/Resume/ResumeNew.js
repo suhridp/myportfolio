@@ -1,29 +1,57 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
+import { Container, Row, Button } from "react-bootstrap";
 import Particle from "../Particle";
-import pdf from "../../Assets/../Assets/Soumyajit_Behera-BIT_MESRA.pdf";
+import pdf from "../../Assets/Suhrid_Resume.pdf";
 import { AiOutlineDownload } from "react-icons/ai";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 function ResumeNew() {
-  const [width, setWidth] = useState(1200);
+  const [width, setWidth] = useState(window.innerWidth);
 
   useEffect(() => {
-    setWidth(window.innerWidth);
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
-    <div>
-      <Container fluid className="resume-section">
+    <div
+      style={{ position: "relative", minHeight: "100vh", overflow: "hidden" }}
+    >
+      {/* Particle Background */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          zIndex: 0,
+        }}
+      >
         <Particle />
-        <Row style={{ justifyContent: "center", position: "relative" }}>
+      </div>
+
+      {/* Main Content */}
+      <Container
+        fluid
+        className="resume-section d-flex flex-column align-items-center justify-content-center"
+        style={{
+          position: "relative",
+          zIndex: 1,
+          paddingTop: "80px",
+          paddingBottom: "80px",
+        }}
+      >
+        <Row className="justify-content-center mb-4">
           <Button
             variant="primary"
             href={pdf}
             target="_blank"
+            rel="noopener noreferrer"
             style={{ maxWidth: "250px" }}
           >
             <AiOutlineDownload />
@@ -31,22 +59,20 @@ function ResumeNew() {
           </Button>
         </Row>
 
-        <Row className="resume">
-          <Document file={pdf} className="d-flex justify-content-center">
-            <Page pageNumber={1} scale={width > 786 ? 1.7 : 0.6} />
+        <Row className="justify-content-center">
+          <Document
+            file={pdf}
+            className="d-flex justify-content-center"
+            loading="Loading PDF..."
+            onLoadError={console.error}
+          >
+            <Page
+              pageNumber={1}
+              scale={width > 992 ? 1.5 : width > 768 ? 1.1 : 0.8}
+              renderTextLayer={false}
+              renderAnnotationLayer={false}
+            />
           </Document>
-        </Row>
-
-        <Row style={{ justifyContent: "center", position: "relative" }}>
-          <Button
-            variant="primary"
-            href={pdf}
-            target="_blank"
-            style={{ maxWidth: "250px" }}
-          >
-            <AiOutlineDownload />
-            &nbsp;Download CV
-          </Button>
         </Row>
       </Container>
     </div>

@@ -1,3 +1,41 @@
+/* Make the root container stretch full height */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Flex container to control layout */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Footer styling to stick it to the bottom */
+.footer {
+  margin-top: auto;
+  padding: 1rem 0;
+  background-color: #020025;
+  color: white;
+  text-align: center;
+}
+
+.footer-icons {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-copywright {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
 .App {
   text-align: center;
 }
@@ -34,5 +72,62 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+.home-about-section,
+.about-section {
+  padding-top: 2px;
+  padding-bottom: 40px;
+}
+.resume-section {
+  color: white;
+  position: relative;
+  z-index: 2;
+  padding: 50px 15px;
+}
+
+button.btn-primary {
+  background-color: #a362ea;
+  border: none;
+}
+
+button.btn-primary:hover {
+  background-color: #8b48dd;
+}
+.about-section,
+.project-section,
+.resume-section {
+  background: transparent !important;
+  position: relative;
+  z-index: 1;
+}
+.profile-pic {
+  width: 700px;
+  height: 900px;
+  object-fit: cover;
+  border-radius: 50%; /* Circular shape */
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  box-shadow: 0 8px 20px rgba(0.6, 0, 0, 1);
+  cursor: pointer;
+  border: 3px solid #8e44ad; /* Optional stylish border */
+}
+
+.profile-pic:hover {
+  transform: scale(1.5) rotate(29deg); /* Subtle hover effect */
+  box-shadow: 0 12px 30px rgba(142, 68, 173, 0.4);
+}
+.floating {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+  100% {
+    transform: translateY(0px);
   }
 }
