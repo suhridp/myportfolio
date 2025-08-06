@@ -1,34 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
-import logo from "../Assets/logo.png";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
-import { CgGitFork } from "react-icons/cg";
+
+import logo from "../Assets/logo.png";
+import { CgGitFork, CgFileDocument } from "react-icons/cg";
 import { ImBlog } from "react-icons/im";
 import {
   AiFillStar,
   AiOutlineHome,
   AiOutlineFundProjectionScreen,
   AiOutlineUser,
+  AiOutlineMail,
 } from "react-icons/ai";
 
-import { CgFileDocument } from "react-icons/cg";
-
 function NavBar() {
-  const [expand, updateExpanded] = useState(false);
-  const [navColour, updateNavbar] = useState(false);
+  const [expand, setExpand] = useState(false);
+  const [navColour, setNavColour] = useState(false);
 
-  function scrollHandler() {
-    if (window.scrollY >= 20) {
-      updateNavbar(true);
-    } else {
-      updateNavbar(false);
-    }
-  }
+  const collapseRef = useRef(null);
+  const toggleRef = useRef(null);
 
-  window.addEventListener("scroll", scrollHandler);
+  // Scroll color effect (with cleanup)
+  useEffect(() => {
+    const onScroll = () => setNavColour(window.scrollY >= 20);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Close navbar when clicking outside (but not when clicking inside or on toggler)
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!expand) return;
+      if (collapseRef.current?.contains(e.target)) return;
+      if (toggleRef.current?.contains(e.target)) return;
+      setExpand(false);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [expand]);
+
+  const closeMenu = () => setExpand(false);
 
   return (
     <Navbar
@@ -38,43 +57,38 @@ function NavBar() {
       className={navColour ? "sticky" : "navbar"}
     >
       <Container>
-        <Navbar.Brand href="/" className="d-flex">
+        <Navbar.Brand as={Link} to="/" className="d-flex">
           <img src={logo} className="img-fluid logo" alt="brand" />
         </Navbar.Brand>
+
+        {/* Custom theme-aware hamburger */}
         <Navbar.Toggle
+          ref={toggleRef}
           aria-controls="responsive-navbar-nav"
-          onClick={() => {
-            updateExpanded(expand ? false : "expanded");
-          }}
+          onClick={() => setExpand((prev) => (prev ? false : "expanded"))}
+          className="themed-toggler"
         >
-          <span></span>
-          <span></span>
-          <span></span>
+          <span className="bar" />
+          <span className="bar" />
+          <span className="bar" />
         </Navbar.Toggle>
-        <Navbar.Collapse id="responsive-navbar-nav">
+
+        <Navbar.Collapse id="responsive-navbar-nav" ref={collapseRef}>
           <Nav className="ms-auto" defaultActiveKey="#home">
             <Nav.Item>
-              <Nav.Link as={Link} to="/" onClick={() => updateExpanded(false)}>
+              <Nav.Link as={Link} to="/" onClick={closeMenu}>
                 <AiOutlineHome style={{ marginBottom: "2px" }} /> Home
               </Nav.Link>
             </Nav.Item>
 
             <Nav.Item>
-              <Nav.Link
-                as={Link}
-                to="/about"
-                onClick={() => updateExpanded(false)}
-              >
+              <Nav.Link as={Link} to="/about" onClick={closeMenu}>
                 <AiOutlineUser style={{ marginBottom: "2px" }} /> About
               </Nav.Link>
             </Nav.Item>
 
             <Nav.Item>
-              <Nav.Link
-                as={Link}
-                to="/project"
-                onClick={() => updateExpanded(false)}
-              >
+              <Nav.Link as={Link} to="/project" onClick={closeMenu}>
                 <AiOutlineFundProjectionScreen
                   style={{ marginBottom: "2px" }}
                 />{" "}
@@ -83,12 +97,14 @@ function NavBar() {
             </Nav.Item>
 
             <Nav.Item>
-              <Nav.Link
-                as={Link}
-                to="/resume"
-                onClick={() => updateExpanded(false)}
-              >
+              <Nav.Link as={Link} to="/resume" onClick={closeMenu}>
                 <CgFileDocument style={{ marginBottom: "2px" }} /> Resume
+              </Nav.Link>
+            </Nav.Item>
+
+            <Nav.Item>
+              <Nav.Link as={Link} to="/contact" onClick={closeMenu}>
+                <AiOutlineMail style={{ marginBottom: "2px" }} /> Contact
               </Nav.Link>
             </Nav.Item>
 

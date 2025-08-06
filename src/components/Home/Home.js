@@ -11,7 +11,6 @@ function Home() {
         fluid
         className="home-section"
         id="home"
-        style={{ height: "92.6vh" }}
       >
         <Particle />
         <Container className="home-content">

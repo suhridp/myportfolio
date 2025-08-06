@@ -31,6 +31,17 @@
   <meta name="twitter:title" content="Suhrid | Portfolio">
   <meta name="twitter:description" content="A self-developed personal portfolio website built with React.js.">
   <meta name="twitter:image" content="https://yourdomain.com/assets/preview.png"> <!-- Replace with your actual image -->
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("theme");
+        var next = stored || "dark"; // default to dark
+        document.documentElement.setAttribute("data-bs-theme", next);
+        document.documentElement.classList.toggle("dark", next === "dark");
+        if (!stored) localStorage.setItem("theme", next);
+      } catch (e) {}
+    })();
+</script>
 
 </head>
 

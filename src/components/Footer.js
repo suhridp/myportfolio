@@ -24,7 +24,6 @@ function Footer() {
             <li className="social-icons">
               <a
                 href="https://github.com/suhridp"
-                style={{ color: "white" }}
                 target="_blank"
                 rel="noopener noreferrer"
               >

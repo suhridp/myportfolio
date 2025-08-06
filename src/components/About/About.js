@@ -28,7 +28,7 @@ function About() {
           {/* Intro */}
           <Row className="align-items-center mb-5">
             <Col md={8}>
-              <h1 style={{ fontSize: "2.6em" }}>
+              <h1 className="section-title" style={{ fontSize: "2.6em" }}>
                 GET TO <span className="purple"> KNOW </span> ME
               </h1>
               <p className="home-about-body">
