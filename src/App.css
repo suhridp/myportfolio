@@ -1,26 +1,23 @@
 /* ================== Root & Layout ================== */
-html, body, #root {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
+html, body, #root { height: 100%; margin: 0; padding: 0; }
 
 .app-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
-
 main.flex-fill { flex: 1 0 auto; }
 
-/* Footer */
+/* ================== Footer ================== */
 .footer {
   margin-top: auto;
   padding: 1rem 0;
   background-color: var(--sbp-footer-bg);
-  color: var(--sbp-text);
+  color: var(--sbp-footer-text);
   text-align: center;
 }
+.footer a { color: var(--sbp-footer-text); }
+.footer a:hover { color: #b18cff; }
 .footer-icons {
   list-style: none;
   display: flex;
@@ -34,16 +31,11 @@ main.flex-fill { flex: 1 0 auto; }
 /* ================== CRA Defaults (kept) ================== */
 .App { text-align: center; }
 .App-logo { height: 40vmin; pointer-events: none; }
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo { animation: App-logo-spin infinite 20s linear; }
-}
+@media (prefers-reduced-motion: no-preference) { .App-logo { animation: App-logo-spin infinite 20s linear; } }
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
 }
@@ -51,40 +43,29 @@ main.flex-fill { flex: 1 0 auto; }
 @keyframes App-logo-spin { from {transform: rotate(0deg);} to {transform: rotate(360deg);} }
 
 /* ================== Sections & Spacing ================== */
-.home-about-section,
-.about-section { padding-top: 2px; padding-bottom: 40px; }
+.home-about-section, .about-section { padding-top: 2px; padding-bottom: 40px; }
 .resume-section {
-  position: relative;
-  z-index: 2;
-  padding: 50px 15px;
+  position: relative; z-index: 2; padding: 50px 15px;
   color: var(--sbp-text);
 }
 
-/* keep pages transparent so the star bg shows */
-.about-section,
-.project-section,
-.resume-section,
-.contact-section,
-.home-section,
-.home-about-section {
-  background: transparent !important;
-  position: relative;
-  z-index: 1;
+/* Transparent pages so star bg shows */
+.about-section, .project-section, .resume-section, .contact-section, .home-section, .home-about-section {
+  background: transparent !important; position: relative; z-index: 1;
 }
 
 /* Page top offset for fixed navbar */
-.page-section { padding: 96px 0 64px; } /* tweak 96px to match navbar height */
+.page-section { padding: 96px 0 64px; }
 
 /* ================== Buttons ================== */
 button.btn-primary { background-color: #a362ea; border: none; }
 button.btn-primary:hover { background-color: #8b48dd; }
 
 .cosmic-button {
-  display: inline-flex; align-items: center; justify-content: center;
-  gap: .5rem; border-radius: 9999px; padding: .6rem 1rem;
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  border-radius: 9999px; padding: .6rem 1rem;
   background: linear-gradient(135deg, #8a5cf6, #c18bff);
-  color: #0b0613; border: 0;
-  box-shadow: 0 8px 20px rgba(193,139,255,.25);
+  color: #0b0613; border: 0; box-shadow: 0 8px 20px rgba(193,139,255,.25);
 }
 .cosmic-button:disabled { opacity: .7; }
 
@@ -95,10 +76,7 @@ button.btn-primary:hover { background-color: #8b48dd; }
   box-shadow: 0 8px 20px rgba(0.6, 0, 0, 1);
   cursor: pointer; border: 3px solid #8e44ad;
 }
-.profile-pic:hover {
-  transform: scale(1.5) rotate(29deg);
-  box-shadow: 0 12px 30px rgba(142, 68, 173, 0.4);
-}
+.profile-pic:hover { transform: scale(1.5) rotate(29deg); box-shadow: 0 12px 30px rgba(142,68,173,.4); }
 
 /* Float util */
 .floating { animation: float 3s ease-in-out infinite; }
@@ -113,239 +91,133 @@ button.btn-primary:hover { background-color: #8b48dd; }
   color: var(--sbp-text);
   backdrop-filter: blur(10px);
 }
-
-.contact-section h1,
-.contact-section h5,
-.contact-section h6 {
-  color: var(--sbp-text);
-}
+.contact-section h1, .contact-section h5, .contact-section h6 { color: var(--sbp-text); }
 .accent { color: #b18cff; }
-
-/* links */
 .link-contrast { color: #c9c2e6; text-decoration: none; }
 .link-contrast:hover { color: #b18cff; }
-
-/* icons */
 .icon-pill {
-  width: 36px; height: 36px;
-  display: inline-flex; align-items: center; justify-content: center;
-  border-radius: 9999px;
-  background: rgba(177,140,255,0.15);
-  color: #b18cff;
+  width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 9999px; background: rgba(177,140,255,0.15); color: #b18cff;
 }
-
-/* social */
 .social-btn {
-  width: 36px; height: 36px;
-  display: inline-flex; align-items: center; justify-content: center;
-  border-radius: 9999px;
-  background: rgba(177,140,255,0.12);
-  border: 1px solid rgba(177,140,255,0.25);
-  color: #d9d2ff;
+  width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 9999px; background: rgba(177,140,255,0.12);
+  border: 1px solid rgba(177,140,255,0.25); color: #d9d2ff;
   transition: transform .2s ease, background .2s ease;
 }
 .social-btn:hover { transform: translateY(-1px); background: rgba(177,140,255,0.25); color: #fff; }
 
 /* ================== Star Background ================== */
 .star-bg { position: fixed; inset: 0; pointer-events: none; z-index: -1; }
-
-/* Stars */
-.star { position: absolute; background: rgba(255,255,255,0.9); border-radius: 9999px; }
-@keyframes pulse-subtle {
-  0%,100% { transform: scale(1); opacity: .45; }
-  50%     { transform: scale(1.15); opacity: .9; }
-}
+.star { position: absolute; border-radius: 9999px; }
+@keyframes pulse-subtle { 0%,100% {transform: scale(1); opacity: .45;} 50% {transform: scale(1.15); opacity: .9;} }
 .animate-pulse-subtle { animation: pulse-subtle 6s ease-in-out infinite; }
 
-/* Meteors — top-left → bottom-right, slower, bright head leading */
+/* ================== Meteors ================== */
 .meteor {
-  position: absolute;
-  background: linear-gradient(to left, rgba(255,255,255,0.95), rgba(255,255,255,0));
-  border-radius: 9999px;
-  transform: rotate(45deg);              /* down-right path */
-  transform-origin: left center;         /* align streak with travel */
-  filter: drop-shadow(0 0 6px rgba(255,255,255,0.5));
+  position: absolute; border-radius: 9999px;
+  transform: rotate(45deg); transform-origin: left center;
   will-change: transform, opacity;
-}
-@keyframes meteor {
-  0%   { transform: translate3d(0, 0, 0) rotate(45deg); opacity: 0; }
-  10%  { opacity: 1; }
-  100% { transform: translate3d(80vw, 55vh, 0) rotate(45deg); opacity: 0; }
-}
-.animate-meteor { animation: meteor 15s linear infinite; }
-
-/* ================== Theme Variables & Application ================== */
-:root[data-bs-theme="dark"] {
-  --sbp-bg: #0c0816;
-  --sbp-text: #f4f1ff;                /* brighter text on dark */
-  --sbp-card-bg: rgba(42, 16, 92, 0.9);
-  --sbp-footer-bg: #020025;
-  --sbp-border: rgba(162, 114, 255, 0.25);
-}
-
-:root[data-bs-theme="light"] {
-  --sbp-bg: #f7f6fb;
-  --sbp-text: #1a1333;               /* dark text on light background */
-  --sbp-card-bg: rgba(255, 255, 255, 0.9);
-  --sbp-footer-bg: #e9e7ff;
-  --sbp-border: rgba(90, 70, 130, 0.2);
-}
-
-/* Apply variables globally */
-body { background: var(--sbp-bg); color: var(--sbp-text); }
-
-/* Optional: star color adapts to theme */
-:root[data-bs-theme="light"] .star { background: rgba(0,0,0,0.55); }
-:root[data-bs-theme="dark"]  .star { background: rgba(255,255,255,0.9); }
-/* ===== THEME-DRIVEN METEOR COLORS (append at end) ===== */
-:root[data-bs-theme="dark"] {
-  --meteor-head: rgba(255, 255, 255, 0.95); /* bright head */
-  --meteor-trail: rgba(255, 255, 255, 0);   /* fading trail */
-  --meteor-glow: rgba(255, 255, 255, 0.5);
-}
-
-:root[data-bs-theme="light"] {
-  --meteor-head: rgba(0, 0, 0, 0.7);        /* dark head */
-  --meteor-trail: rgba(0, 0, 0, 0);         /* fading trail */
-  --meteor-glow: rgba(0, 0, 0, 0.25);
-}
-
-/* Rebind meteor visuals to the variables */
-.meteor {
   background: linear-gradient(to left, var(--meteor-head), var(--meteor-trail));
   filter: drop-shadow(0 0 6px var(--meteor-glow));
 }
-.footer {
-  background-color: var(--sbp-footer-bg);
-  color: var(--sbp-footer-text);
+@keyframes meteor {
+  0%   { transform: translate3d(0,0,0) rotate(45deg); opacity: 0; }
+  10%  { opacity: 1; }
+  100% { transform: translate3d(80vw,55vh,0) rotate(45deg); opacity: 0; }
+}
+.animate-meteor { animation: meteor 15s linear infinite; }
+
+/* ================== Theme Variables ================== */
+:root[data-bs-theme="dark"] {
+  --sbp-bg: #0c0816;
+  --sbp-text: #f4f1ff;
+  --sbp-card-bg: rgba(42, 16, 92, 0.9);
+  --sbp-footer-bg: #020025;
+  --sbp-footer-text: #f4f1ff;
+  --sbp-border: rgba(162, 114, 255, 0.25);
+  --meteor-head: rgba(255,255,255,0.95);
+  --meteor-trail: rgba(255,255,255,0);
+  --meteor-glow: rgba(255,255,255,0.5);
+}
+:root[data-bs-theme="light"] {
+  --sbp-bg: #f7f6fb;
+  --sbp-text: #1a1333;
+  --sbp-card-bg: rgba(255, 255, 255, 0.9);
+  --sbp-footer-bg: #1a1333;           /* darker for contrast */
+  --sbp-footer-text: #f7f6fb;
+  --sbp-border: rgba(90, 70, 130, 0.2);
+  --meteor-head: rgba(0,0,0,0.7);
+  --meteor-trail: rgba(0,0,0,0);
+  --meteor-glow: rgba(0,0,0,0.25);
 }
 
-.footer a {
-  color: var(--sbp-footer-text);
-}
+/* Apply theme vars globally */
+body { background: var(--sbp-bg); color: var(--sbp-text); }
+:root[data-bs-theme="light"] .star { background: rgba(0,0,0,0.55); }
+:root[data-bs-theme="dark"]  .star { background: rgba(255,255,255,0.9); }
 
-.footer a:hover {
-  color: #b18cff; /* your accent purple */
-}
-/* Projects section follows theme text colors */
-.project-section .project-heading,
-.project-section .project-subtext {
-  color: var(--sbp-text);
-  text-align: center;
-}
+/* ================== Page-specific Theme Overrides ================== */
+/* Projects */
+.project-section .project-heading { color: var(--sbp-text); letter-spacing: .2px; margin-bottom: .5rem; }
+.project-section .project-heading .purple { color: #b18cff; }
+.project-section .project-subtext { color: var(--sbp-text); opacity: .85; }
+.project-card .card { background-color: var(--sbp-card-bg) !important; border: 1px solid var(--sbp-border); backdrop-filter: blur(8px); }
+.project-card, .project-card * { color: var(--sbp-text); }
 
-.project-section .project-subtext {
-  opacity: 0.85;           /* a touch lighter than headings */
-  margin-bottom: 1.5rem;
-}
+/* About */
+.about-section, .about-section * { color: var(--sbp-text); }
+.about-section .purple { color: #b18cff; }
+.about-section .icon-colour { color: var(--sbp-text); transition: color .2s ease, transform .2s ease; }
+.about-section .icon-colour:hover { color: #b18cff; transform: translateY(-1px); }
 
-/* If ProjectCard renders a Bootstrap Card, ensure its text is theme-aware */
-.project-card,
-.project-card * {
-  color: var(--sbp-text);
+/* Home */
+.home-section, .home-section * { color: var(--sbp-text); }
+.home-section .main-name { color: #b18cff; }
+.home-section .Typewriter__wrapper, .home-section .Typewriter__cursor { color: var(--sbp-text); opacity: .95; }
+.navbar-toggler {
+  border: none;
+  background: transparent;
 }
+/* Ensure navbar sits above backgrounds */
+.navbar { z-index: 1050; }
 
-/* Optional: give project cards a subtle glass bg to avoid washout in light mode */
-.project-card .card {
-  background-color: var(--sbp-card-bg) !important;
-  border: 1px solid var(--sbp-border);
-  backdrop-filter: blur(8px);
+/* Theme-aware custom toggler */
+.themed-toggler {
+  border: 1px solid var(--sbp-text);
+  padding: .35rem .5rem;
+  background: transparent;
 }
-/* ---- Fix Featured Work heading colors (strong override) ---- */
-:root { --accent: #b18cff; } /* if you don't already have an accent var */
+.themed-toggler:focus {
+  box-shadow: 0 0 0 .15rem rgba(177,140,255,.35);
+  outline: none;
+}
+.themed-toggler .bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--sbp-text);
+  margin: 4px 0;
+  transition: background .2s ease, transform .2s ease, opacity .2s ease;
+}
+/* Keep navbar above backgrounds */
+.navbar { z-index: 1050; }
 
-.project-section .project-heading {
-  color: var(--sbp-text) !important;      /* "Featured" picks theme text */
+/* Theme-aware custom toggler (no data URIs) */
+.themed-toggler {
+  border: 1px solid var(--sbp-text);
+  padding: .35rem .5rem;
+  background: transparent;
 }
-
-.project-section .project-heading .purple {
-  color: var(--accent) !important;        /* "Work" stays accent purple */
+.themed-toggler:focus {
+  box-shadow: 0 0 0 .15rem rgba(177,140,255,.35);
+  outline: none;
 }
-
-/* Optional: better readability spacing */
-.project-section .project-heading {
-  letter-spacing: 0.2px;
-  margin-bottom: 0.5rem;
+.themed-toggler .bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--sbp-text);
+  margin: 4px 0;
+  transition: background .2s ease, transform .2s ease, opacity .2s ease;
 }
-.container .project-section .project-heading { color: var(--sbp-text) !important; }
-/* === About page: force theme text colors (override template whites) === */
-.about-section,
-.about-section * { color: var(--sbp-text); }
-
-/* Headings in About */
-.about-section h1,
-.about-section h2,
-.about-section h3 {
-  color: var(--sbp-text) !important;   /* beat previous !important whites */
-}
-
-/* Keep the purple accent for spans/strong.purple */
-.about-section .purple,
-.purple {
-  color: #b18cff !important;
-}
-
-/* About intro paragraph/body text */
-.about-section .home-about-body,
-.about-section p,
-.about-section li {
-  color: var(--sbp-text) !important;
-  opacity: .95; /* optional: slightly softer than headings */
-}
-
-/* Social icons in About → use currentColor; change on hover */
-.about-section .icon-colour {
-  color: var(--sbp-text) !important;
-  transition: color .2s ease, transform .2s ease;
-}
-.about-section .icon-colour:hover {
-  color: #b18cff !important;
-  transform: translateY(-1px);
-}
-
-/* Optional: section titles reused across pages */
-.about-section .project-heading {
-  color: var(--sbp-text) !important;
-}
-.about-section .project-heading .purple {
-  color: #b18cff !important;
-}
-/* === HOME page: force theme text colors & keep accent === */
-.home-section,
-.home-section * {
-  color: var(--sbp-text);
-}
-
-/* Headings */
-.home-section .heading,
-.home-section .heading-name {
-  color: var(--sbp-text) !important;   /* beat template whites */
-}
-
-/* Accent for name */
-.home-section .main-name,
-.main-name {
-  color: #b18cff !important;           /* your accent purple */
-}
-
-/* Typewriter text (common classnames used by typewriter libs) */
-.home-section .Typewriter__wrapper,
-.home-section .Typewriter__cursor {
-  color: var(--sbp-text) !important;
-  text-shadow: none;
-  opacity: .95;
-}
-
-/* Optional: balance spacing/alignment on hero text */
-.home-section .home-header {
-  color: var(--sbp-text);
-}
-.home-section .home-content {
-  padding-top: 1rem;
-}
-
-/* Make sure the section stays transparent so star bg shows */
-.home-section {
-  background: transparent !important;
-}
-

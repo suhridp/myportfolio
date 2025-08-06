@@ -17,7 +17,7 @@ import {
 } from "react-icons/ai";
 
 function NavBar() {
-  const [expand, setExpand] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const [navColour, setNavColour] = useState(false);
 
   const collapseRef = useRef(null);
@@ -34,10 +34,10 @@ function NavBar() {
   // Close navbar when clicking outside (but not when clicking inside or on toggler)
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (!expand) return;
+      if (!expanded) return;
       if (collapseRef.current?.contains(e.target)) return;
       if (toggleRef.current?.contains(e.target)) return;
-      setExpand(false);
+      setExpanded(false);
     };
     document.addEventListener("mousedown", handleClickOutside);
     document.addEventListener("touchstart", handleClickOutside);
@@ -45,13 +45,13 @@ function NavBar() {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("touchstart", handleClickOutside);
     };
-  }, [expand]);
+  }, [expanded]);
 
-  const closeMenu = () => setExpand(false);
+  const closeMenu = () => setExpanded(false);
 
   return (
     <Navbar
-      expanded={expand}
+      expanded={expanded}
       fixed="top"
       expand="md"
       className={navColour ? "sticky" : "navbar"}
@@ -61,11 +61,12 @@ function NavBar() {
           <img src={logo} className="img-fluid logo" alt="brand" />
         </Navbar.Brand>
 
-        {/* Custom theme-aware hamburger */}
+        {/* Single, theme-aware hamburger toggle */}
         <Navbar.Toggle
           ref={toggleRef}
+          aria-label="Toggle navigation"
           aria-controls="responsive-navbar-nav"
-          onClick={() => setExpand((prev) => (prev ? false : "expanded"))}
+          onClick={() => setExpanded((prev) => !prev)}
           className="themed-toggler"
         >
           <span className="bar" />
