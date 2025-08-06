@@ -221,3 +221,16 @@ body { background: var(--sbp-bg); color: var(--sbp-text); }
   margin: 4px 0;
   transition: background .2s ease, transform .2s ease, opacity .2s ease;
 }
+.brand-text {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 900;
+  font-size: 2rem;
+  letter-spacing: 0.2px;
+  text-decoration: none;
+  color: var(--sbp-text) !important; /* adapts to theme */
+  transition: color 0.3s ease;
+}
+
+.brand-text:hover {
+  color: #b18cff !important; /* accent purple on hover */
+}

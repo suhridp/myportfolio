@@ -5,7 +5,6 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 
-import logo from "../Assets/logo.png";
 import { CgGitFork, CgFileDocument } from "react-icons/cg";
 import { ImBlog } from "react-icons/im";
 import {
@@ -23,7 +22,6 @@ function NavBar() {
   const collapseRef = useRef(null);
   const toggleRef = useRef(null);
 
-  // Scroll color effect (with cleanup)
   useEffect(() => {
     const onScroll = () => setNavColour(window.scrollY >= 20);
     onScroll();
@@ -31,7 +29,6 @@ function NavBar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close navbar when clicking outside (but not when clicking inside or on toggler)
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (!expanded) return;
@@ -57,8 +54,13 @@ function NavBar() {
       className={navColour ? "sticky" : "navbar"}
     >
       <Container>
-        <Navbar.Brand as={Link} to="/" className="d-flex">
-          <img src={logo} className="img-fluid logo" alt="brand" />
+        {/* Classy Brand Text */}
+        <Navbar.Brand
+          as={Link}
+          to="/"
+          className="d-flex align-items-center brand-text"
+        >
+          Sbp.
         </Navbar.Brand>
 
         {/* Single, theme-aware hamburger toggle */}
@@ -81,13 +83,11 @@ function NavBar() {
                 <AiOutlineHome style={{ marginBottom: "2px" }} /> Home
               </Nav.Link>
             </Nav.Item>
-
             <Nav.Item>
               <Nav.Link as={Link} to="/about" onClick={closeMenu}>
                 <AiOutlineUser style={{ marginBottom: "2px" }} /> About
               </Nav.Link>
             </Nav.Item>
-
             <Nav.Item>
               <Nav.Link as={Link} to="/project" onClick={closeMenu}>
                 <AiOutlineFundProjectionScreen
@@ -96,19 +96,16 @@ function NavBar() {
                 Projects
               </Nav.Link>
             </Nav.Item>
-
             <Nav.Item>
               <Nav.Link as={Link} to="/resume" onClick={closeMenu}>
                 <CgFileDocument style={{ marginBottom: "2px" }} /> Resume
               </Nav.Link>
             </Nav.Item>
-
             <Nav.Item>
               <Nav.Link as={Link} to="/contact" onClick={closeMenu}>
                 <AiOutlineMail style={{ marginBottom: "2px" }} /> Contact
               </Nav.Link>
             </Nav.Item>
-
             <Nav.Item>
               <Nav.Link
                 href="https://suhridblogs.vercel.app/"
@@ -118,7 +115,6 @@ function NavBar() {
                 <ImBlog style={{ marginBottom: "2px" }} /> Blogs
               </Nav.Link>
             </Nav.Item>
-
             <Nav.Item className="fork-btn">
               <Button
                 href="https://github.com/suhridp"
