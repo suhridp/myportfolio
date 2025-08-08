@@ -36,7 +36,7 @@ You can fork this repo to modify and make changes of your own. Please give prope
 
 ## 🛠 Built With
 
-My personal portfolio: <a href="https://suhridbp.vercel.app/" target="_blank">suhrid.tech</a>  
+My personal portfolio: <a href="https://suhridbp.vercel.app/" target="_blank">[suhridbp](https://suhridbp.vercel.app/)</a>  
 It showcases my GitHub projects, resume, and tech stack.
 
 **Tech Stack Used:**
