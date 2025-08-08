@@ -69,7 +69,7 @@ function NavBar() {
         </Navbar.Toggle>
 
         <Navbar.Collapse id="responsive-navbar-nav" ref={collapseRef}>
-          <Nav className="ms-auto" defaultActiveKey="#home">
+          <Nav className="ms-auto align-items-center" defaultActiveKey="#home">
             <Nav.Item>
               <Nav.Link as={Link} to="/" onClick={closeMenu}>
                 Home
@@ -105,13 +105,13 @@ function NavBar() {
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Button
+              <Nav.Link
                 href="https://github.com/suhridp"
                 target="_blank"
-                className="fork-btn-inner"
+                className="p-0 d-flex align-items-center"
               >
-                GitHub
-              </Button>
+                <Button className="fork-btn-inner">GitHub</Button>
+              </Nav.Link>
             </Nav.Item>
           </Nav>
         </Navbar.Collapse>
