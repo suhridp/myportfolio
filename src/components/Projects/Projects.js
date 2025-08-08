@@ -29,7 +29,8 @@ function Projects() {
               isBlog={false}
               title="Agentic AI Query Planner"
               description="Built at NJIT (USA) during a research internship. Developed a framework for efficient personalized top-k set queries using LLMs. Reduced computational cost and enhanced user-defined planning with probabilistic models."
-              ghLink="https://github.com/suhridp"
+              certLink="https://drive.google.com/file/d/1B2nP5HL_mkGygZOAWgAsmIK52Bqos90R/view?usp=drive_link"
+              clickWholeCard={true}
             />
           </Col>
 
@@ -39,7 +40,8 @@ function Projects() {
               isBlog={false}
               title="DoS Attack Detection"
               description="Internship project at IIT Guwahati. Designed and tested security protocols to detect and mitigate Denial-of-Service attacks. Co-authored a research paper on modern cybersecurity frameworks."
-              ghLink="https://github.com/suhridp"
+              certLink="https://drive.google.com/file/d/1ZtIOiPTqgt-iIDwm2r7ifoian8irsaag/view?usp=drive_link"
+              clickWholeCard={true}
             />
           </Col>
 
