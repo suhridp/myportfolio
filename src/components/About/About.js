@@ -5,7 +5,7 @@ import Techstack from "./Techstack";
 import Toolstack from "./Toolstack";
 import Tilt from "react-parallax-tilt";
 import laptopImg from "../../Assets/about.png";
-import myImg from "../../Assets/mypic.JPG";
+import myImg from "../../Assets/mypic2.JPG";
 import {
   AiFillGithub,
   AiOutlineTwitter,
@@ -32,22 +32,23 @@ function About() {
                 GET TO <span className="purple"> KNOW </span> ME
               </h1>
               <p className="home-about-body">
-                I’m Suhrid Behari Paul, an aspiring developer and tech
-                enthusiast currently pursuing a{" "}
+                I’m Suhrid Behari Paul, an aspiring tech enthusiast and
+                developer currently pursuing a{" "}
                 <b className="purple">B.Tech in Information Technology</b> at
                 Heritage Institute of Technology.
                 <br />
                 <br />
                 I’ve worked with{" "}
-                <b className="purple">C, C++, JavaScript, Python, SQL</b> and
-                love building innovative solutions.
+                <b className="purple">
+                  Python, SQL, C, C++, JavaScript, Java, React{" "}
+                </b>{" "}
+                and love building innovative solutions.
                 <br />
                 <br />
-                Interests include <b className="purple">
-                  Web Development
-                </b>, <b className="purple">LLMs</b>,{" "}
+                Interests include <b className="purple">LLMs</b>,{" "}
                 <b className="purple">Network Security</b>, and{" "}
-                <b className="purple">Cybersecurity</b>.
+                <b className="purple">Cybersecurity</b>,
+                <b className="purple">Web Development</b>.
                 <br />
                 <br />
                 I’ve interned at <b className="purple">IIT Guwahati</b> and{" "}

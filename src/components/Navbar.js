@@ -5,16 +5,6 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 
-import { CgGitFork, CgFileDocument } from "react-icons/cg";
-import { ImBlog } from "react-icons/im";
-import {
-  AiFillStar,
-  AiOutlineHome,
-  AiOutlineFundProjectionScreen,
-  AiOutlineUser,
-  AiOutlineMail,
-} from "react-icons/ai";
-
 function NavBar() {
   const [expanded, setExpanded] = useState(false);
   const [navColour, setNavColour] = useState(false);
@@ -22,6 +12,7 @@ function NavBar() {
   const collapseRef = useRef(null);
   const toggleRef = useRef(null);
 
+  // Scroll color effect
   useEffect(() => {
     const onScroll = () => setNavColour(window.scrollY >= 20);
     onScroll();
@@ -29,6 +20,7 @@ function NavBar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Close when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (!expanded) return;
@@ -63,7 +55,7 @@ function NavBar() {
           Sbp.
         </Navbar.Brand>
 
-        {/* Single, theme-aware hamburger toggle */}
+        {/* Hamburger toggle */}
         <Navbar.Toggle
           ref={toggleRef}
           aria-label="Toggle navigation"
@@ -80,30 +72,27 @@ function NavBar() {
           <Nav className="ms-auto" defaultActiveKey="#home">
             <Nav.Item>
               <Nav.Link as={Link} to="/" onClick={closeMenu}>
-                <AiOutlineHome style={{ marginBottom: "2px" }} /> Home
+                Home
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link as={Link} to="/about" onClick={closeMenu}>
-                <AiOutlineUser style={{ marginBottom: "2px" }} /> About
+                About
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link as={Link} to="/project" onClick={closeMenu}>
-                <AiOutlineFundProjectionScreen
-                  style={{ marginBottom: "2px" }}
-                />{" "}
                 Projects
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link as={Link} to="/resume" onClick={closeMenu}>
-                <CgFileDocument style={{ marginBottom: "2px" }} /> Resume
+                Resume
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
               <Nav.Link as={Link} to="/contact" onClick={closeMenu}>
-                <AiOutlineMail style={{ marginBottom: "2px" }} /> Contact
+                Contact
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
@@ -112,17 +101,16 @@ function NavBar() {
                 target="_blank"
                 rel="noreferrer"
               >
-                <ImBlog style={{ marginBottom: "2px" }} /> Blogs
+                Blogs
               </Nav.Link>
             </Nav.Item>
-            <Nav.Item className="fork-btn">
+            <Nav.Item>
               <Button
                 href="https://github.com/suhridp"
                 target="_blank"
                 className="fork-btn-inner"
               >
-                <CgGitFork style={{ fontSize: "1.2em" }} />{" "}
-                <AiFillStar style={{ fontSize: "1.1em" }} />
+                GitHub
               </Button>
             </Nav.Item>
           </Nav>
