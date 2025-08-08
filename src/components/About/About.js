@@ -5,7 +5,7 @@ import Techstack from "./Techstack";
 import Toolstack from "./Toolstack";
 import Tilt from "react-parallax-tilt";
 import laptopImg from "../../Assets/about.png";
-import myImg from "../../Assets/mypic.JPG";
+import myImg from "../../Assets/mypic2.JPG";
 import {
   AiFillGithub,
   AiOutlineTwitter,
