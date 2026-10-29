@@ -1,102 +1,64 @@
-import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import React, { useMemo, useState } from "react";
+import { Container } from "react-bootstrap";
 import ProjectCard from "./ProjectCards";
-import Particle from "../Particle";
-import thriftshop from "../../Assets/Projects/thriftshop.jpg";
-import editor from "../../Assets/Projects/codeEditor.png";
-import queryagentic from "../../Assets/Projects/queryagentic.jpg";
-import dosattack from "../../Assets/Projects/dosattack.png";
-import bitsOfCode from "../../Assets/Projects/blog.png";
+import projects from "../../data/projects";
+
+const FILTERS = ["All", "Research", "Hackathon", "Product"];
 
 function Projects() {
+  const [filter, setFilter] = useState("All");
+
+  const counts = useMemo(() => {
+    const c = { All: projects.length };
+    projects.forEach((p) => (c[p.category] = (c[p.category] || 0) + 1));
+    return c;
+  }, []);
+
+  const visible = projects.filter((p) => filter === "All" || p.category === filter);
+  const featured = filter === "All" ? visible.filter((p) => p.featured) : [];
+  const rest = filter === "All" ? visible.filter((p) => !p.featured) : visible;
+
   return (
-    <Container fluid className="project-section page-section">
-      <Particle />
+    <section className="project-section page-section">
       <Container>
-        <h1 className="project-heading">
-          Featured <strong className="purple">Work</strong>
-        </h1>
+        <header className="page-head">
+          <h1 className="page-title">Projects</h1>
+          <p className="page-lede">
+            Research from internships at NJIT and IIT Guwahati, hackathon builds, and products
+            I've designed. Open any card for my role and what came out of it.
+          </p>
+        </header>
 
-        <p className="project-subtext">
-          A showcase of research, hackathons, and innovative concepts I've
-          contributed to.
-        </p>
+        <div className="pj-filters" role="group" aria-label="Filter projects by type">
+          {FILTERS.filter((f) => counts[f]).map((f) => (
+            <button
+              key={f}
+              type="button"
+              className={`chip ${filter === f ? "is-active" : ""}`}
+              aria-pressed={filter === f}
+              onClick={() => setFilter(f)}
+            >
+              {f}
+              <span className="chip-count">{counts[f]}</span>
+            </button>
+          ))}
+        </div>
 
-        <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={queryagentic}
-              isBlog={false}
-              title="Agentic AI Query Planner"
-              description="Built at NJIT (USA) during a research internship. Developed a framework for efficient personalized top-k set queries using LLMs. Reduced computational cost and enhanced user-defined planning with probabilistic models."
-              certLink="https://drive.google.com/file/d/1B2nP5HL_mkGygZOAWgAsmIK52Bqos90R/view?usp=drive_link"
-              clickWholeCard={true}
-            />
-          </Col>
+        {featured.length > 0 && (
+          <div className="pj-featured">
+            {featured.map((p) => (
+              <ProjectCard key={p.id} project={p} variant="featured" />
+            ))}
+          </div>
+        )}
 
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={dosattack}
-              isBlog={false}
-              title="DoS Attack Detection"
-              description="Internship project at IIT Guwahati. Designed and tested security protocols to detect and mitigate Denial-of-Service attacks. Co-authored a research paper on modern cybersecurity frameworks."
-              certLink="https://drive.google.com/file/d/1ZtIOiPTqgt-iIDwm2r7ifoian8irsaag/view?usp=drive_link"
-              clickWholeCard={true}
-            />
-          </Col>
-
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={editor}
-              isBlog={false}
-              title="Diversion 2024 – EduMate"
-              description="Built a web app to enhance educational workflows within institutes, focusing on student-faculty collaboration and efficient resource management."
-              ghLink="https://github.com/suhridp"
-            />
-          </Col>
-
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={editor}
-              isBlog={false}
-              title="SIH 2024 – GuardianEye"
-              description="Developed a Flutter-based mobile app aimed at ensuring women’s safety through real-time alerts, emergency contacts, and geolocation tracking."
-              ghLink="https://github.com/suhridp"
-            />
-          </Col>
-
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={editor}
-              isBlog={false}
-              title="SIH 2023 – Artisan"
-              description="Created a React-based web app for Kashmiri artisans to showcase and sell their handcrafted products online with improved customer reach and visibility."
-              ghLink="https://github.com/suhridp"
-            />
-          </Col>
-
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={thriftshop}
-              isBlog={false}
-              title="2nd Stitch – Hult Prize Finalist"
-              description="Finalist project for Hult Prize On Campus 2024. Pitched a sustainable thrifted fashion platform to promote circular fashion economy. Focused on digital thrift store UI/UX, and environmental impact."
-              ghLink="https://github.com/suhridp"
-            />
-          </Col>
-
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={bitsOfCode}
-              isBlog={false}
-              title="Portfolio & Blogs"
-              description="Built using React, Next.js, and Tailwind CSS. Dynamic blog system using markdown and real-time data display. Designed with responsive dark mode, clean layout, and fast loading experience."
-              ghLink="https://github.com/suhridp"
-            />
-          </Col>
-        </Row>
+        <div className="pj-grid">
+          {rest.map((p) => (
+            <ProjectCard key={p.id} project={p} />
+          ))}
+        </div>
       </Container>
-    </Container>
+    </section>
   );
 }
 

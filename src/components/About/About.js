@@ -4,6 +4,7 @@ import Particle from "../Particle";
 import Techstack from "./Techstack";
 import Toolstack from "./Toolstack";
 import Tilt from "react-parallax-tilt";
+import { Link } from "react-router-dom";
 import laptopImg from "../../Assets/about.png";
 import myImg from "../../Assets/mypic2.JPG";
 import {
@@ -146,10 +147,13 @@ function About() {
                 }}
               >
                 <li>👨‍🍳 Cooking creative meals</li>
+                <li>📷 Photography</li>
                 <li>🎨 Painting and sketching</li>
                 <li>🌍 Travelling to new places</li>
-                <li>🍜 Exploring street food and cuisines</li>
               </ul>
+              <Link to="/hobbies" className="btn-ghost" style={{ marginTop: "1rem" }}>
+                See my cooking and photos
+              </Link>
             </Col>
             <Col md={5} className="text-center">
               <img src={laptopImg} alt="about" className="img-fluid" />
