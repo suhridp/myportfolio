@@ -8,7 +8,7 @@
 //    category    "Research" | "Independent" | "Hackathon" | "Product"  (used by the filters)
 //    org         where / for whom it was built
 //    period      when (free text, e.g. "Summer 2025")
-    status      optional badge, e.g. "In development"
+//    status      optional badge, e.g. "In development"
 //    role        what you did on it
 //    summary     1–2 sentence overview
 //    highlights  bullet points shown when the card is expanded
