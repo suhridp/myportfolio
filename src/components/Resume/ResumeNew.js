@@ -1,24 +1,67 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container } from "react-bootstrap";
-import { FiPrinter, FiGithub, FiLinkedin, FiMail, FiPhone, FiMapPin } from "react-icons/fi";
+import { FiDownload, FiExternalLink, FiGithub, FiLinkedin, FiMail, FiPhone, FiMapPin } from "react-icons/fi";
 import profile from "../../data/profile";
 import projects from "../../data/projects";
 import { ExperienceList, SkillGroups } from "../About/About";
 
 function ResumeNew() {
   const resumeProjects = projects.filter((p) => p.category === "Independent");
+  // Phones rarely display PDFs inline, so they start on the page version.
+  const [view, setView] = useState(() =>
+    typeof window !== "undefined" && window.innerWidth < 768 ? "web" : "pdf"
+  );
 
   return (
     <section className="resume-page page-section">
       <Container>
         <div className="resume-toolbar">
           <h1 className="page-title">Resume</h1>
-          <button type="button" className="btn-solid" onClick={() => window.print()}>
-            <FiPrinter aria-hidden="true" style={{ marginRight: "0.5rem" }} />
-            Save as PDF
+          <div className="resume-actions">
+            <a href={profile.cv} download className="btn-solid">
+              <FiDownload aria-hidden="true" style={{ marginRight: "0.5rem" }} />
+              Download PDF
+            </a>
+            <a href={profile.cv} target="_blank" rel="noreferrer" className="btn-ghost">
+              <FiExternalLink aria-hidden="true" style={{ marginRight: "0.5rem" }} />
+              Open in new tab
+            </a>
+          </div>
+        </div>
+
+        <div className="hb-tabs" role="tablist" aria-label="Resume format">
+          <button
+            role="tab"
+            aria-selected={view === "pdf"}
+            className={`hb-tab ${view === "pdf" ? "is-active" : ""}`}
+            onClick={() => setView("pdf")}
+          >
+            PDF
+          </button>
+          <button
+            role="tab"
+            aria-selected={view === "web"}
+            className={`hb-tab ${view === "web" ? "is-active" : ""}`}
+            onClick={() => setView("web")}
+          >
+            Page version
           </button>
         </div>
 
+        {view === "pdf" && (
+          <div className="resume-pdf">
+            <object data={`${profile.cv}#view=FitH`} type="application/pdf" aria-label="Resume PDF">
+              <div className="resume-pdf-fallback">
+                <p>Your browser can't show the PDF here.</p>
+                <a href={profile.cv} target="_blank" rel="noreferrer" className="btn-solid">
+                  Open the PDF
+                </a>
+              </div>
+            </object>
+          </div>
+        )}
+
+        {view === "web" && (
         <article className="resume-sheet">
           <header className="rs-head">
             <h2 className="rs-name">{profile.name}</h2>
@@ -106,6 +149,7 @@ function ResumeNew() {
             </ul>
           </section>
         </article>
+        )}
       </Container>
     </section>
   );

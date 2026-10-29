@@ -61,6 +61,16 @@ function About() {
           <div>
             <h1 className="page-title">About me</h1>
             <p className="about-summary">{profile.summary}</p>
+            <div className="now-card">
+              <span className="now-card-label">
+                <span className="now-dot" aria-hidden="true" /> Current role, since {profile.currentRole.since}
+              </span>
+              <strong>
+                {profile.currentRole.title}, {profile.currentRole.org}
+              </strong>
+              <span>{profile.currentRole.unit}</span>
+              <span className="now-card-focus">{profile.currentRole.focus}</span>
+            </div>
             <div className="about-links">
               <a href={profile.links.github} target="_blank" rel="noreferrer" className="pj-link">
                 <FiGithub aria-hidden="true" /> GitHub

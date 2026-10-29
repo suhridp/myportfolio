@@ -8,6 +8,14 @@ const profile = {
   shortName: "Suhrid",
   title: "AI researcher and engineer",
   location: "Kolkata, India",
+  cv: "/Suhrid_Behari_Paul_CV.pdf",
+  currentRole: {
+    title: "Junior Research Fellow",
+    org: "IIT Guwahati",
+    unit: "Dept. of Computer Science and Engineering",
+    since: "July 2026",
+    focus: "Predictive inter-RAT handover in 5G/6G networks and the security of data-driven prediction",
+  },
   email: "suhridpaul6@gmail.com",
   phone: "+91 8013549912",
   links: {
@@ -46,7 +54,7 @@ const profile = {
       org: "New Jersey Institute of Technology, USA",
       period: "June – July 2025",
       certificate:
-        "https://drive.google.com/file/d/1B2nP5HL_mkGygZOAWgAsmIK52Bqos90R/view?usp=drive_link",
+        "https://drive.google.com/file/d/1B2nP5HL_mkGygZOAWgAsmIK52Bqos90R/view?usp=sharing",
       points: [
         "Developed a probabilistic query-optimization framework for personalized top-k retrieval using LLM-based approaches.",
         "Explored ranking strategies to reduce computational overhead in interactive query-planning systems.",

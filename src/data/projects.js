@@ -25,6 +25,25 @@ import dosattack from "../Assets/Projects/dosattack.png";
 
 const projects = [
   {
+    id: "inter-rat-handover",
+    title: "Predictive Inter-RAT Handover in 5G/6G",
+    category: "Research",
+    org: "IIT Guwahati, Dept. of CSE",
+    period: "July 2026 – Present",
+    status: "Current role",
+    role: "Junior Research Fellow",
+    summary:
+      "Studying data-driven handover prediction between radio access technologies, and how that prediction can be attacked.",
+    highlights: [
+      "Evaluating handover decisions on radio measurements with simulation-driven experiments",
+      "Investigating the robustness of prediction mechanisms and vulnerabilities in next-generation networks",
+    ],
+    stack: ["5G/6G", "Simulation", "Adversarial robustness", "MATLAB"],
+    image: null,
+    links: {},
+    featured: true,
+  },
+  {
     id: "agent-failure-modes",
     title: "Failure Modes and Safeguards in Tool-Using AI Agents",
     category: "Independent",
@@ -42,7 +61,7 @@ const projects = [
     ],
     stack: ["Python", "LLM APIs", "Agent evaluation"],
     image: null,
-    links: { github: "https://github.com/suhridp" },
+    links: { github: "https://github.com/suhridp/agent-safety-eval" },
     featured: true,
   },
   {
@@ -62,7 +81,7 @@ const projects = [
     ],
     stack: ["Python", "Anthropic API", "BM25", "RAG"],
     image: null,
-    links: { github: "https://github.com/suhridp" },
+    links: { github: "https://github.com/suhridp/agentic-research-analyst" },
     featured: true,
   },
   {
@@ -81,25 +100,8 @@ const projects = [
     ],
     stack: ["Python", "PostgreSQL", "SQLGlot"],
     image: null,
-    links: { github: "https://github.com/suhridp" },
-  },
-  {
-    id: "inter-rat-handover",
-    title: "Predictive Inter-RAT Handover in 5G/6G",
-    category: "Research",
-    org: "IIT Guwahati, Dept. of CSE",
-    period: "July 2026 – Present",
-    status: "Ongoing",
-    role: "Junior Research Fellow",
-    summary:
-      "Studying data-driven handover prediction between radio access technologies, and how that prediction can be attacked.",
-    highlights: [
-      "Evaluating handover decisions on radio measurements with simulation-driven experiments",
-      "Investigating the robustness of prediction mechanisms and vulnerabilities in next-generation networks",
-    ],
-    stack: ["5G/6G", "Simulation", "Adversarial robustness", "MATLAB"],
-    image: null,
-    links: {},
+    links: { github: "https://github.com/suhridp/nl2sql-agent-postgres" },
+    featured: true,
   },
   {
     id: "agentic-query-planner",
@@ -118,7 +120,7 @@ const projects = [
     image: queryagentic,
     links: {
       certificate:
-        "https://drive.google.com/file/d/1B2nP5HL_mkGygZOAWgAsmIK52Bqos90R/view?usp=drive_link",
+        "https://drive.google.com/file/d/1B2nP5HL_mkGygZOAWgAsmIK52Bqos90R/view?usp=sharing",
     },
   },
   {

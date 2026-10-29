@@ -833,3 +833,168 @@ a.contact-row:hover { color: var(--accent) !important; }
   a { color: #111 !important; text-decoration: none; }
   .pj-stack li { border-color: #bbb; color: #222 !important; }
 }
+
+/* =====================================================================
+   Current role, Resume PDF, Contact redesign
+   ===================================================================== */
+
+/* "Now" status — Home badge + About card */
+.now-dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--teal);
+  box-shadow: 0 0 0 4px var(--teal-soft);
+  flex: none;
+}
+.now-badge {
+  display: inline-flex; align-items: center; gap: 0.65rem;
+  padding: 0.45rem 0.95rem 0.45rem 0.8rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text) !important;
+  text-decoration: none;
+  font-size: 0.95rem;
+  max-width: 100%;
+}
+.now-badge strong { font-weight: 600; }
+.now-badge:hover { border-color: var(--teal); }
+.now-card {
+  display: flex; flex-direction: column; gap: 0.2rem;
+  padding: 1.1rem 1.25rem;
+  margin: 0 0 1.5rem;
+  border-left: 3px solid var(--teal);
+  background: var(--surface);
+  border-radius: 0 14px 14px 0;
+  max-width: 62ch;
+}
+.now-card-label {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-size: 0.85rem; color: var(--teal) !important; font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+.now-card strong { font-family: "Bricolage Grotesque", sans-serif; font-size: 1.25rem; color: var(--text); }
+.now-card span { color: var(--muted); }
+.now-card .now-card-focus { color: var(--text); margin-top: 0.35rem; }
+
+/* Projects: featured shows 2×2 on desktop */
+.pj-featured { grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); }
+.pj-card--noimg[data-category="Research"] .pj-status { border-color: var(--teal); color: var(--teal) !important; }
+
+/* Resume PDF */
+.resume-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.resume-pdf {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--surface);
+  max-width: 980px;
+}
+.resume-pdf object {
+  display: block;
+  width: 100%;
+  height: min(1300px, 140vw);
+  min-height: 70vh;
+}
+.resume-pdf-fallback {
+  display: grid; place-items: center; gap: 1rem;
+  padding: 3rem 1.5rem; text-align: center;
+  color: var(--muted);
+}
+@media (max-width: 640px) {
+  .resume-actions { width: 100%; }
+  .resume-actions > a { flex: 1 1 auto; }
+}
+
+/* ---------- Contact (redesign) ---------- */
+.ct-page, .ct-page * { text-align: left; }
+.ct-hero { max-width: 980px; margin-bottom: clamp(3rem, 8vw, 5rem); }
+.ct-title {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: clamp(3.2rem, 12vw, 7.5rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  margin: 0 0 1.25rem;
+  color: var(--text) !important;
+}
+.ct-lede { color: var(--muted) !important; font-size: 1.15rem; max-width: 56ch; margin: 0 0 2rem; }
+.ct-email-row { display: flex; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.75rem; }
+.ct-email {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: clamp(1.4rem, 5.2vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text) !important;
+  text-decoration: none;
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 100% 4px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  padding-bottom: 0.2rem;
+  overflow-wrap: anywhere;
+  transition: color 0.2s ease;
+}
+.ct-email:hover { color: var(--accent) !important; }
+.ct-copy { width: 44px; height: 44px; }
+.ct-copied { color: var(--teal); font-size: 0.9rem; min-width: 4em; }
+.ct-tiles {
+  list-style: none; padding: 0; margin: 0 0 1rem;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+.ct-tiles a {
+  display: flex; align-items: center; gap: 0.65rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--text) !important;
+  text-decoration: none;
+  font-weight: 500;
+  min-width: 0;
+}
+.ct-tiles a span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ct-tiles a svg { color: var(--accent); flex: none; font-size: 1.15rem; }
+.ct-tiles a:hover { border-color: var(--accent); }
+.ct-where { display: flex; align-items: center; gap: 0.45rem; color: var(--muted); margin: 0; font-size: 0.95rem; }
+@media (max-width: 860px) { .ct-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.ct-form {
+  max-width: 980px;
+  border-top: 1px solid var(--line);
+  padding-top: clamp(2rem, 5vw, 3rem);
+  display: flex; flex-direction: column; gap: 1.25rem;
+}
+.ct-form-head h2 { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 700; letter-spacing: -0.02em; margin: 0 0 0.3rem; color: var(--text) !important; }
+.ct-form-head p { color: var(--muted); margin: 0; }
+.ct-topics { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.ct-topics legend { font-size: 0.95rem; font-weight: 500; margin-bottom: 0.6rem; float: none; width: auto; color: var(--text); }
+.ct-topics .chip { cursor: pointer; position: relative; }
+.ct-topics .chip input { position: absolute; opacity: 0; pointer-events: none; }
+.ct-topics .chip:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ct-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.ct-form label:not(.chip) { display: flex; flex-direction: column; gap: 0.4rem; font-weight: 500; font-size: 0.95rem; }
+.ct-form input[type="text"],
+.ct-form input[type="email"],
+.ct-form textarea {
+  width: 100%;
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.8rem 0.95rem;
+}
+.ct-form textarea { resize: vertical; min-height: 150px; }
+.ct-form input:focus, .ct-form textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.ct-submit { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
+.ct-submit .btn-solid { cursor: pointer; }
+.ct-submit .btn-solid:disabled { opacity: 0.7; cursor: progress; }
+.ct-status { flex: 1 1 280px; }
+@media (max-width: 640px) {
+  .ct-fields { grid-template-columns: 1fr; }
+  .ct-submit .btn-solid { width: 100%; }
+  .ct-lede { font-size: 1.02rem; }
+}

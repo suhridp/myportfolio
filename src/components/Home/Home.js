@@ -8,12 +8,18 @@ import hobbies from "../../data/hobbies";
 import profile from "../../data/profile";
 
 function Home() {
-  const featured = projects.filter((p) => p.featured || p.status === "Ongoing");
+  const featured = projects.filter((p) => p.featured);
 
   return (
     <section className="home-section">
       <Container className="hero">
         <div className="hero-copy">
+          <Link to="/about" className="now-badge">
+            <span className="now-dot" aria-hidden="true" />
+            <span>
+              Now: <strong>{profile.currentRole.title}</strong>, {profile.currentRole.org}
+            </span>
+          </Link>
           <p className="hero-hello">
             Hi, I'm <span className="wave" role="img" aria-label="waving hand">👋🏻</span>
           </p>
