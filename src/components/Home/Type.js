@@ -1,19 +1,16 @@
 import React from "react";
 import Typewriter from "typewriter-effect";
+import profile from "../../data/profile";
 
 function Type() {
   return (
     <Typewriter
       options={{
-        strings: [
-          "Tech Researcher",
-          "Software Developer",
-          "MERN Stack Developer",
-          "AI ML Researcher ",
-        ],
+        strings: profile.taglines,
         autoStart: true,
         loop: true,
-        deleteSpeed: 50,
+        delay: 45,
+        deleteSpeed: 25,
       }}
     />
   );

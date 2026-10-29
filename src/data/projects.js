@@ -5,9 +5,10 @@
 //  Fields:
 //    id          unique short string
 //    title       project name
-//    category    "Research" | "Hackathon" | "Product"  (used by the filters)
+//    category    "Research" | "Independent" | "Hackathon" | "Product"  (used by the filters)
 //    org         where / for whom it was built
 //    period      when (free text, e.g. "Summer 2025")
+    status      optional badge, e.g. "In development"
 //    role        what you did on it
 //    summary     1–2 sentence overview
 //    highlights  bullet points shown when the card is expanded
@@ -21,70 +22,140 @@ import thriftshop from "../Assets/Projects/thriftshop.jpg";
 import editor from "../Assets/Projects/codeEditor.png";
 import queryagentic from "../Assets/Projects/queryagentic.jpg";
 import dosattack from "../Assets/Projects/dosattack.png";
-import blog from "../Assets/Projects/blog.png";
 
 const projects = [
   {
+    id: "agent-failure-modes",
+    title: "Failure Modes and Safeguards in Tool-Using AI Agents",
+    category: "Independent",
+    org: "Independent research project",
+    period: "2026",
+    status: "In development",
+    role: "Sole researcher",
+    summary:
+      "A sandboxed harness that measures how often tool-using agents take unsafe actions under prompt injection, and how much each safeguard reduces that.",
+    highlights: [
+      "Simulated tools across 5 tasks and 3 injection styles, with unsafe actions scored deterministically from tool-call logs",
+      "Compares a baseline agent against prompt hardening, input filtering and layered safeguards",
+      "Reports unsafe-action rate with confidence intervals alongside task completion and false-blocking rate",
+      "Next step: evaluation on real models",
+    ],
+    stack: ["Python", "LLM APIs", "Agent evaluation"],
+    image: null,
+    links: { github: "https://github.com/suhridp" },
+    featured: true,
+  },
+  {
+    id: "research-analyst-agent",
+    title: "Agentic Research Analyst with Evidence Verification",
+    category: "Independent",
+    org: "Independent project",
+    period: "2026",
+    status: "In development",
+    role: "Design & implementation",
+    summary:
+      "A multi-stage agent that checks every claim against the passage it cites, drops unsupported claims, and abstains when the evidence isn't there.",
+    highlights: [
+      "Pipeline of planner, retrieval, extractor, verifier, synthesizer and critic stages",
+      "RAG baseline for comparison",
+      "Evaluation harness with tests: Recall@k, unsupported-claim rate, abstention accuracy, latency and cost",
+    ],
+    stack: ["Python", "Anthropic API", "BM25", "RAG"],
+    image: null,
+    links: { github: "https://github.com/suhridp" },
+    featured: true,
+  },
+  {
+    id: "nl-to-sql",
+    title: "Natural-Language-to-SQL Agent with Query Optimization",
+    category: "Independent",
+    org: "Independent project",
+    period: "2026",
+    status: "In development",
+    role: "Design & implementation",
+    summary:
+      "A PostgreSQL agent with SQL validation, read-only execution, error repair and clarifying questions, plus a benchmark of whether query rewrites actually help.",
+    highlights: [
+      "The validator and the read-only role each blocked 11 of 11 destructive test statements",
+      "Benchmarked rewrites with EXPLAIN ANALYZE: the planner was already near-optimal on most queries, and rewriting helped on 2 of 12",
+    ],
+    stack: ["Python", "PostgreSQL", "SQLGlot"],
+    image: null,
+    links: { github: "https://github.com/suhridp" },
+  },
+  {
+    id: "inter-rat-handover",
+    title: "Predictive Inter-RAT Handover in 5G/6G",
+    category: "Research",
+    org: "IIT Guwahati, Dept. of CSE",
+    period: "July 2026 – Present",
+    status: "Ongoing",
+    role: "Junior Research Fellow",
+    summary:
+      "Studying data-driven handover prediction between radio access technologies, and how that prediction can be attacked.",
+    highlights: [
+      "Evaluating handover decisions on radio measurements with simulation-driven experiments",
+      "Investigating the robustness of prediction mechanisms and vulnerabilities in next-generation networks",
+    ],
+    stack: ["5G/6G", "Simulation", "Adversarial robustness", "MATLAB"],
+    image: null,
+    links: {},
+  },
+  {
     id: "agentic-query-planner",
-    title: "Agentic AI Query Planner",
+    title: "Query Planning with Agentic AI",
     category: "Research",
     org: "New Jersey Institute of Technology, USA",
-    period: "Research internship",
+    period: "June – July 2025",
     role: "Research intern",
     summary:
-      "A framework for efficient personalized top-k set queries using LLMs, with probabilistic models guiding user-defined query plans.",
+      "A probabilistic query-optimization framework for personalized top-k retrieval using LLM-based approaches.",
     highlights: [
-      "Designed an agentic planner that decides when an LLM call is worth its cost",
-      "Reduced computational cost of top-k set queries over large candidate sets",
-      "Modelled user preferences probabilistically to support custom planning",
+      "Explored ranking strategies that cut computational overhead in interactive query planning",
+      "Presented internationally at the NJIT URI Research Symposium 2025",
     ],
-    stack: ["Python", "LLMs", "Agentic AI", "Probabilistic models"],
+    stack: ["Python", "LLMs", "Probabilistic models", "Top-k retrieval"],
     image: queryagentic,
     links: {
       certificate:
         "https://drive.google.com/file/d/1B2nP5HL_mkGygZOAWgAsmIK52Bqos90R/view?usp=drive_link",
     },
-    featured: true,
   },
   {
     id: "dos-detection",
-    title: "DoS Attack Detection",
+    title: "Early Detection of DoS Attacks in 5G",
     category: "Research",
     org: "IIT Guwahati",
-    period: "Research internship",
-    role: "Research intern · co-author",
+    period: "June – July 2024",
+    role: "Research intern",
     summary:
-      "Designed and tested security protocols to detect and mitigate Denial-of-Service attacks, and co-authored a paper on modern cybersecurity frameworks.",
+      "Data-driven approaches for detecting Denial-of-Service attacks in 5G networks.",
     highlights: [
-      "Built and evaluated detection protocols against simulated DoS traffic",
-      "Studied mitigation strategies for network-level attacks",
-      "Co-authored a research paper on cybersecurity frameworks",
+      "Network-security analysis supporting attack-detection and resilience research",
     ],
-    stack: ["Network Security", "Python", "Traffic analysis"],
+    stack: ["Python", "Network security", "5G"],
     image: dosattack,
     links: {
       certificate:
         "https://drive.google.com/file/d/1ZtIOiPTqgt-iIDwm2r7ifoian8irsaag/view?usp=drive_link",
     },
-    featured: true,
   },
   {
     id: "2nd-stitch",
-    title: "2nd Stitch",
+    title: "Second Stitch",
     category: "Product",
-    org: "Hult Prize On Campus 2024 — Finalist",
+    org: "Hult Prize On Campus — Top 5 finalist",
     period: "2024",
     role: "Product & UI/UX",
     summary:
       "A thrifted-fashion platform pitched to promote a circular fashion economy, covering the digital storefront and its environmental impact.",
     highlights: [
-      "Reached the finals of Hult Prize On Campus 2024",
+      "Campus finalist (top 5) at the Hult Prize",
       "Designed the digital thrift store experience end to end",
-      "Built the pitch around measurable environmental impact",
     ],
     stack: ["Figma", "UI/UX", "Pitching"],
     image: thriftshop,
-    links: { github: "https://github.com/suhridp" },
+    links: {},
   },
   {
     id: "guardianeye",
@@ -92,13 +163,12 @@ const projects = [
     category: "Hackathon",
     org: "Smart India Hackathon 2024",
     period: "2024",
-    role: "Mobile developer",
+    role: "Team lead",
     summary:
       "A Flutter app for women's safety with real-time alerts, emergency contacts and live geolocation tracking.",
     highlights: [
       "One-tap SOS that notifies saved emergency contacts",
       "Live location sharing during an alert",
-      "Built and demoed within the hackathon window",
     ],
     stack: ["Flutter", "Dart", "Geolocation"],
     image: editor,
@@ -108,9 +178,9 @@ const projects = [
     id: "edumate",
     title: "EduMate",
     category: "Hackathon",
-    org: "Diversion 2024",
-    period: "2024",
-    role: "Full-stack developer",
+    org: "Diversion Hackathon 2025",
+    period: "2025",
+    role: "Team lead",
     summary:
       "A web app that streamlines workflows inside institutes, focused on student–faculty collaboration and resource management.",
     highlights: [
@@ -130,33 +200,10 @@ const projects = [
     role: "Frontend developer",
     summary:
       "A React storefront that lets Kashmiri artisans showcase and sell handcrafted products to a wider audience.",
-    highlights: [
-      "Product listings designed around the craft and its maker",
-      "Improved reach and visibility for small artisans",
-    ],
+    highlights: ["Product listings designed around the craft and its maker"],
     stack: ["React", "CSS"],
     image: editor,
     links: { github: "https://github.com/suhridp" },
-  },
-  {
-    id: "portfolio-blogs",
-    title: "Portfolio & Blogs",
-    category: "Product",
-    org: "Personal",
-    period: "Ongoing",
-    role: "Design & development",
-    summary:
-      "This site and my blog: a markdown-driven blog system with responsive dark mode and fast loading.",
-    highlights: [
-      "Markdown-based blog posts with dynamic routing",
-      "Light and dark themes, responsive down to mobile",
-    ],
-    stack: ["React", "Next.js", "Tailwind CSS"],
-    image: blog,
-    links: {
-      github: "https://github.com/suhridp/myportfolio",
-      demo: "https://suhridblogs.vercel.app/",
-    },
   },
 ];
 

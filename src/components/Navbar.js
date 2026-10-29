@@ -9,6 +9,7 @@ const LINKS = [
   { to: "/", label: "Home", end: true },
   { to: "/about", label: "About" },
   { to: "/project", label: "Projects" },
+  { to: "/blog", label: "Blog" },
   { to: "/hobbies", label: "Hobbies" },
   { to: "/resume", label: "Resume" },
   { to: "/contact", label: "Contact" },
@@ -64,7 +65,7 @@ function NavBar() {
     <Navbar
       expanded={expanded}
       fixed="top"
-      expand="md"
+      expand="lg"
       className={`site-nav ${scrolled || expanded ? "is-scrolled" : ""}`}
     >
       <Container>
@@ -85,15 +86,12 @@ function NavBar() {
         </Navbar.Toggle>
 
         <Navbar.Collapse id="responsive-navbar-nav" ref={collapseRef}>
-          <Nav className="ms-auto align-items-md-center site-nav-links">
+          <Nav className="ms-auto align-items-lg-center site-nav-links">
             {LINKS.map((l) => (
               <Nav.Link key={l.to} as={NavLink} to={l.to} end={l.end} onClick={closeMenu}>
                 {l.label}
               </Nav.Link>
             ))}
-            <Nav.Link href="https://suhridblogs.vercel.app/" target="_blank" rel="noreferrer">
-              Blog
-            </Nav.Link>
             <div className="site-nav-actions">
               <a
                 href="https://github.com/suhridp"

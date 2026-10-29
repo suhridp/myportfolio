@@ -1,179 +1,125 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import Particle from "../Particle";
-import Techstack from "./Techstack";
-import Toolstack from "./Toolstack";
-import Tilt from "react-parallax-tilt";
+import { Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import laptopImg from "../../Assets/about.png";
-import myImg from "../../Assets/mypic2.JPG";
-import {
-  AiFillGithub,
-  AiOutlineTwitter,
-  AiFillInstagram,
-} from "react-icons/ai";
-import { FaLinkedinIn } from "react-icons/fa";
+import { FiGithub, FiLinkedin, FiMail, FiAward } from "react-icons/fi";
+import portrait from "../../Assets/mypic2.JPG";
+import profile from "../../data/profile";
+
+export function ExperienceList({ items }) {
+  return (
+    <ol className="xp-list">
+      {items.map((x) => (
+        <li key={x.role + x.period} className={`xp-item ${x.current ? "is-current" : ""}`}>
+          <div className="xp-when">{x.period}</div>
+          <div className="xp-what">
+            <h3>{x.role}</h3>
+            <p className="xp-org">
+              {x.org}
+              {x.unit && <span>, {x.unit}</span>}
+            </p>
+            <ul>
+              {x.points.map((pt) => (
+                <li key={pt}>{pt}</li>
+              ))}
+            </ul>
+            {x.certificate && (
+              <a href={x.certificate} target="_blank" rel="noreferrer" className="pj-link">
+                <FiAward aria-hidden="true" /> Certificate
+              </a>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+export function SkillGroups({ groups }) {
+  return (
+    <dl className="skill-groups">
+      {groups.map((g) => (
+        <div key={g.group} className="skill-group">
+          <dt>{g.group}</dt>
+          <dd>
+            <ul className="pj-stack">
+              {g.items.map((i) => (
+                <li key={i}>{i}</li>
+              ))}
+            </ul>
+          </dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
 
 function About() {
   return (
-    <div
-      style={{ position: "relative", overflow: "hidden", minHeight: "100vh" }}
-    >
-      <Particle />
-      <Container
-        fluid
-        className="about-section"
-        style={{ paddingTop: "50px", paddingBottom: "50px" }}
-      >
-        <Container>
-          {/* Intro */}
-          <Row className="align-items-center mb-5">
-            <Col md={8}>
-              <h1 className="section-title" style={{ fontSize: "2.6em" }}>
-                GET TO <span className="purple"> KNOW </span> ME
-              </h1>
-              <p className="home-about-body">
-                I’m Suhrid Behari Paul, an aspiring tech enthusiast and
-                developer currently pursuing a{" "}
-                <b className="purple">B.Tech in Information Technology</b> at
-                Heritage Institute of Technology.
-                <br />
-                <br />
-                I’ve worked with{" "}
-                <b className="purple">
-                  Python, SQL, C, C++, JavaScript, Java, React{" "}
-                </b>{" "}
-                and love building innovative solutions.
-                <br />
-                <br />
-                Interests include <b className="purple">LLMs</b>,{" "}
-                <b className="purple">Network Security</b>, and{" "}
-                <b className="purple">Cybersecurity</b>,
-                <b className="purple">Web Development</b>.
-                <br />
-                <br />
-                I’ve interned at <b className="purple">IIT Guwahati</b> and{" "}
-                <b className="purple">NJIT, USA</b> on topics like DoS detection
-                and Agentic AI.
-                <br />
-                <br />I build with <b className="purple">Node.js</b>,{" "}
-                <b className="purple">React.js</b>,{" "}
-                <b className="purple">Next.js</b> and design using Figma &
-                Canva.
-              </p>
-            </Col>
-            <Col md={4} className="text-center">
-              <Tilt>
-                <img src={myImg} className="img-fluid" alt="avatar" />
-              </Tilt>
-            </Col>
-          </Row>
+    <section className="about-page page-section">
+      <Container>
+        <div className="about-intro">
+          <div>
+            <h1 className="page-title">About me</h1>
+            <p className="about-summary">{profile.summary}</p>
+            <div className="about-links">
+              <a href={profile.links.github} target="_blank" rel="noreferrer" className="pj-link">
+                <FiGithub aria-hidden="true" /> GitHub
+              </a>
+              <a href={profile.links.linkedin} target="_blank" rel="noreferrer" className="pj-link">
+                <FiLinkedin aria-hidden="true" /> LinkedIn
+              </a>
+              <a href={`mailto:${profile.email}`} className="pj-link">
+                <FiMail aria-hidden="true" /> {profile.email}
+              </a>
+            </div>
+          </div>
+          <img src={portrait} alt={profile.name} className="about-portrait" />
+        </div>
 
-          {/* Social Links */}
-          <Row className="mb-5">
-            <Col md={12} className="text-center">
-              <h1>CONNECT WITH ME</h1>
-              <p>
-                Let's <span className="purple">collaborate</span> or just say
-                hi!
-              </p>
-              <ul
-                style={{
-                  listStyle: "none",
-                  padding: 0,
-                  margin: 0,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: "2rem",
-                }}
-              >
-                <li>
-                  <a
-                    href="https://github.com/suhridp"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="icon-colour"
-                  >
-                    <AiFillGithub size={28} />
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://twitter.com/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="icon-colour"
-                  >
-                    <AiOutlineTwitter size={28} />
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://www.linkedin.com/in/suhridpaul/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="icon-colour"
-                  >
-                    <FaLinkedinIn size={28} />
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://www.instagram.com/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="icon-colour"
-                  >
-                    <AiFillInstagram size={28} />
-                  </a>
-                </li>
-              </ul>
-            </Col>
-          </Row>
+        <div className="about-block">
+          <h2 className="block-title">Experience</h2>
+          <ExperienceList items={profile.experience} />
+        </div>
 
-          {/* Who I Am + Hobbies */}
-          <Row className="align-items-center mb-5">
-            <Col md={7}>
-              <h1 style={{ fontSize: "2.1em", paddingBottom: "20px" }}>
-                Know Who <strong className="purple">I AM</strong>
-              </h1>
-              <ul
-                style={{
-                  textAlign: "left",
-                  paddingLeft: "1.2rem",
-                  fontSize: "1.1rem",
-                  lineHeight: "1.8",
-                }}
-              >
-                <li>👨‍🍳 Cooking creative meals</li>
-                <li>📷 Photography</li>
-                <li>🎨 Painting and sketching</li>
-                <li>🌍 Travelling to new places</li>
-              </ul>
-              <Link to="/hobbies" className="btn-ghost" style={{ marginTop: "1rem" }}>
-                See my cooking and photos
-              </Link>
-            </Col>
-            <Col md={5} className="text-center">
-              <img src={laptopImg} alt="about" className="img-fluid" />
-            </Col>
-          </Row>
+        <div className="about-grid">
+          <div className="about-block">
+            <h2 className="block-title">Skills</h2>
+            <SkillGroups groups={profile.skills} />
+          </div>
 
-          {/* Tech Stack */}
-          <h1 className="project-heading">
-            Professional <strong className="purple">Skillset</strong>
-          </h1>
-          <Techstack />
+          <div className="about-block">
+            <h2 className="block-title">Education</h2>
+            {profile.education.map((e) => (
+              <div key={e.school} className="edu-item">
+                <h3>{e.school}</h3>
+                <p>{e.degree}</p>
+                <p className="edu-meta">
+                  {e.period}
+                  <span className="edu-grade">{e.grade}</span>
+                </p>
+              </div>
+            ))}
 
-          {/* Tools */}
-          <h1 className="project-heading">
-            <strong className="purple">Tools</strong> I Use
-          </h1>
-          <Toolstack />
-        </Container>
+            <h2 className="block-title block-title--spaced">Achievements & leadership</h2>
+            <ul className="ach-list">
+              {profile.achievements.map((a) => (
+                <li key={a}>{a}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="about-block about-offline">
+          <h2 className="block-title">Outside work</h2>
+          <p>
+            I cook a lot and take photos when I'm out. I keep both on a page of their own.
+          </p>
+          <Link to="/hobbies" className="btn-ghost">
+            See my cooking and photos
+          </Link>
+        </div>
       </Container>
-    </div>
+    </section>
   );
 }
 

@@ -5,9 +5,10 @@ import portrait from "../../Assets/mypic.JPG";
 import Type from "./Type";
 import projects from "../../data/projects";
 import hobbies from "../../data/hobbies";
+import profile from "../../data/profile";
 
 function Home() {
-  const featured = projects.filter((p) => p.featured);
+  const featured = projects.filter((p) => p.featured || p.status === "Ongoing");
 
   return (
     <section className="home-section">
@@ -24,11 +25,7 @@ function Home() {
           <div className="hero-type">
             <Type />
           </div>
-          <p className="hero-intro">
-            I study Information Technology at Heritage Institute of Technology and work on LLM
-            systems and network security. I've done research internships at NJIT in the USA and
-            at IIT Guwahati.
-          </p>
+          <p className="hero-intro">{profile.intro}</p>
           <div className="hero-actions">
             <Link to="/project" className="btn-solid">
               See my projects
@@ -40,13 +37,13 @@ function Home() {
         </div>
 
         <figure className="hero-portrait">
-          <img src={portrait} alt="Suhrid Behari Paul" />
+          <img src={portrait} alt={profile.name} />
         </figure>
       </Container>
 
       <Container className="home-strip">
         <div className="strip-block">
-          <h2>Recent research</h2>
+          <h2>What I'm working on</h2>
           <ul className="strip-list">
             {featured.map((p) => (
               <li key={p.id}>

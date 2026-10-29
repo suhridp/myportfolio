@@ -29,12 +29,15 @@ function ProjectLinks({ links = {} }) {
 
 function ProjectCard({ project, variant = "grid" }) {
   const [open, setOpen] = useState(variant === "featured");
-  const { title, category, org, period, role, summary, highlights = [], stack = [], image, links } =
+  const { title, category, org, period, role, status, summary, highlights = [], stack = [], image, links } =
     project;
   const detailsId = `${project.id}-details`;
 
   return (
-    <article className={`pj-card pj-card--${variant}`} data-category={category}>
+    <article
+      className={`pj-card pj-card--${variant} ${image ? "" : "pj-card--noimg"}`}
+      data-category={category}
+    >
       {image && (
         <div className="pj-media">
           <img src={image} alt="" loading="lazy" />
@@ -44,6 +47,7 @@ function ProjectCard({ project, variant = "grid" }) {
       <div className="pj-body">
         <p className="pj-meta">
           <span className={`pj-cat pj-cat--${category.toLowerCase()}`}>{category}</span>
+          {status && <span className="pj-status">{status}</span>}
           <span className="pj-org">{org}</span>
         </p>
         <h3 className="pj-title">{title}</h3>

@@ -3,7 +3,7 @@ import { Container } from "react-bootstrap";
 import ProjectCard from "./ProjectCards";
 import projects from "../../data/projects";
 
-const FILTERS = ["All", "Research", "Hackathon", "Product"];
+const FILTERS = ["All", "Independent", "Research", "Hackathon", "Product"];
 
 function Projects() {
   const [filter, setFilter] = useState("All");
@@ -24,8 +24,8 @@ function Projects() {
         <header className="page-head">
           <h1 className="page-title">Projects</h1>
           <p className="page-lede">
-            Research from internships at NJIT and IIT Guwahati, hackathon builds, and products
-            I've designed. Open any card for my role and what came out of it.
+            Agent evaluation and LLM systems I'm building now, research at IIT Guwahati and
+            NJIT, and hackathon work. Open any card for my role and the results.
           </p>
         </header>
 
