@@ -2,25 +2,48 @@ import React, { useState, useEffect, useRef } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { FiSun, FiMoon, FiGithub } from "react-icons/fi";
+
+const LINKS = [
+  { to: "/", label: "Home", end: true },
+  { to: "/about", label: "About" },
+  { to: "/project", label: "Projects" },
+  { to: "/blog", label: "Blog" },
+  { to: "/hobbies", label: "Hobbies" },
+  { to: "/resume", label: "Resume" },
+  { to: "/contact", label: "Contact" },
+];
+
+function useTheme() {
+  const [theme, setTheme] = useState(
+    () => document.documentElement.getAttribute("data-bs-theme") || "dark"
+  );
+  useEffect(() => {
+    document.documentElement.setAttribute("data-bs-theme", theme);
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    try {
+      localStorage.setItem("theme", theme);
+    } catch (e) {}
+  }, [theme]);
+  return [theme, () => setTheme((t) => (t === "dark" ? "light" : "dark"))];
+}
 
 function NavBar() {
   const [expanded, setExpanded] = useState(false);
-  const [navColour, setNavColour] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [theme, toggleTheme] = useTheme();
 
   const collapseRef = useRef(null);
   const toggleRef = useRef(null);
 
-  // Scroll color effect
   useEffect(() => {
-    const onScroll = () => setNavColour(window.scrollY >= 20);
+    const onScroll = () => setScrolled(window.scrollY >= 20);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (!expanded) return;
@@ -42,20 +65,14 @@ function NavBar() {
     <Navbar
       expanded={expanded}
       fixed="top"
-      expand="md"
-      className={navColour ? "sticky" : "navbar"}
+      expand="lg"
+      className={`site-nav ${scrolled || expanded ? "is-scrolled" : ""}`}
     >
       <Container>
-        {/* Classy Brand Text */}
-        <Navbar.Brand
-          as={Link}
-          to="/"
-          className="d-flex align-items-center brand-text"
-        >
-          Sbp.
+        <Navbar.Brand as={NavLink} to="/" className="brand-text" onClick={closeMenu}>
+          Sbp<span className="brand-dot">.</span>
         </Navbar.Brand>
 
-        {/* Hamburger toggle */}
         <Navbar.Toggle
           ref={toggleRef}
           aria-label="Toggle navigation"
@@ -69,50 +86,31 @@ function NavBar() {
         </Navbar.Toggle>
 
         <Navbar.Collapse id="responsive-navbar-nav" ref={collapseRef}>
-          <Nav className="ms-auto align-items-center" defaultActiveKey="#home">
-            <Nav.Item>
-              <Nav.Link as={Link} to="/" onClick={closeMenu}>
-                Home
+          <Nav className="ms-auto align-items-lg-center site-nav-links">
+            {LINKS.map((l) => (
+              <Nav.Link key={l.to} as={NavLink} to={l.to} end={l.end} onClick={closeMenu}>
+                {l.label}
               </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link as={Link} to="/about" onClick={closeMenu}>
-                About
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link as={Link} to="/project" onClick={closeMenu}>
-                Projects
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link as={Link} to="/resume" onClick={closeMenu}>
-                Resume
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link as={Link} to="/contact" onClick={closeMenu}>
-                Contact
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link
-                href="https://suhridblogs.vercel.app/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Blogs
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link
+            ))}
+            <div className="site-nav-actions">
+              <a
                 href="https://github.com/suhridp"
                 target="_blank"
-                className="p-0 d-flex align-items-center"
+                rel="noreferrer"
+                className="icon-btn"
+                aria-label="GitHub profile"
               >
-                <Button className="fork-btn-inner">GitHub</Button>
-              </Nav.Link>
-            </Nav.Item>
+                <FiGithub />
+              </a>
+              <button
+                type="button"
+                className="icon-btn"
+                onClick={toggleTheme}
+                aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+              >
+                {theme === "dark" ? <FiSun /> : <FiMoon />}
+              </button>
+            </div>
           </Nav>
         </Navbar.Collapse>
       </Container>

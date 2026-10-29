@@ -7,6 +7,8 @@ import Projects from "./components/Projects/Projects";
 import Footer from "./components/Footer";
 import Resume from "./components/Resume/ResumeNew";
 import Contact from "./components/Contact/Contact";
+import Hobbies from "./components/Hobbies/Hobbies";
+import { BlogList, BlogPost } from "./components/Blog/Blog";
 import StarBackground from "./components/StarBackground";
 import {
   BrowserRouter as Router,
@@ -20,6 +22,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style.css";
 import "./App.css";
+import "./theme.css";
 
 function App() {
   const [load, upadateLoad] = useState(true);
@@ -49,6 +52,9 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/resume" element={<Resume />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/hobbies" element={<Hobbies />} />
+            <Route path="/blog" element={<BlogList />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </main>

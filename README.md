@@ -64,3 +64,9 @@ To get started locally, clone the repo and ensure you have `Node.js` and `Git` i
 npm install
 npm start
 ```
+
+## Updating content
+
+- **Projects** — edit `src/data/projects.js`. Each project has a category (Research, Hackathon, Product), role, dates, highlights, tech stack and links. Set `featured: true` to show it large at the top.
+- **Hobbies** — edit `src/data/hobbies.js`. Drop photos into `public/hobbies/cooking/` or `public/hobbies/photography/` and reference them like `image: "/hobbies/cooking/biryani.jpg"`. Add new entries at the top of a list. To add another hobby, copy one of the blocks.
+- **Colours** — the two token blocks at the top of `src/theme.css` control the whole palette for dark and light mode.

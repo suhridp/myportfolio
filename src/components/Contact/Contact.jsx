@@ -1,209 +1,186 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import {
-  Mail,
-  Phone,
-  MapPin,
-  Linkedin,
-  Twitter,
-  Instagram,
-  Twitch,
-  Send,
-} from "lucide-react";
+  FiCopy,
+  FiCheck,
+  FiPhone,
+  FiGithub,
+  FiLinkedin,
+  FiSend,
+  FiMapPin,
+  FiFileText,
+} from "react-icons/fi";
+import { Link } from "react-router-dom";
+import profile from "../../data/profile";
+
+// Messages are delivered by FormSubmit (https://formsubmit.co) to profile.email.
+// The very first message triggers a one-time confirmation email from FormSubmit;
+// click "Activate" in it and every later message arrives normally.
+const ENDPOINT = `https://formsubmit.co/ajax/${profile.email}`;
+
+const TOPICS = ["Research collaboration", "Job or internship", "A project or post", "Something else"];
 
 const Contact = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [sent, setSent] = useState(false);
+  const [form, setForm] = useState({ name: "", email: "", topic: TOPICS[0], message: "" });
+  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+  const [error, setError] = useState("");
+  const [copied, setCopied] = useState(false);
 
-  const handleSubmit = (e) => {
+  const update = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(profile.email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (e) {
+      window.location.href = `mailto:${profile.email}`;
+    }
+  };
+
+  const mailtoHref = `mailto:${profile.email}?subject=${encodeURIComponent(
+    `${form.topic} — from ${form.name || "your portfolio"}`
+  )}&body=${encodeURIComponent(form.message)}`;
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setSent(true);
-      setIsSubmitting(false);
-    }, 1200);
+    setStatus("sending");
+    setError("");
+    try {
+      const res = await fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          topic: form.topic,
+          message: form.message,
+          _subject: `Portfolio: ${form.topic} — ${form.name}`,
+          _replyto: form.email,
+          _template: "table",
+          _captcha: "false",
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || String(data.success) !== "true") {
+        throw new Error(data.message || "The message service didn't accept the message.");
+      }
+      setStatus("sent");
+      setForm({ name: "", email: "", topic: TOPICS[0], message: "" });
+    } catch (err) {
+      setStatus("error");
+      setError(err.message || "Couldn't reach the message service.");
+    }
   };
 
   return (
-    <section className="page-section contact-section">
+    <section className="page-section ct-page">
       <Container>
-        {/* Heading */}
-        <Row className="text-center mb-4">
-          <h1 className="display-6 fw-semibold mb-2">
-            Get in <span className="accent">Touch</span>
-          </h1>
-          <p className="text-muted lead mb-0">
-            Have a project in mind or want to collaborate? I’m always open to
-            discussing new opportunities.
+        <header className="ct-hero">
+          <h1 className="ct-title">Let's talk.</h1>
+          <p className="ct-lede">
+            I'm a {profile.currentRole.title} at {profile.currentRole.org}, open to research
+            collaborations and AI/LLM roles. Email is the quickest way to reach me.
           </p>
-        </Row>
 
-        <Row className="g-4">
-          {/* Left: Contact Info */}
-          <Col md={5}>
-            <Card className="contact-card h-100">
-              <Card.Body>
-                <h5 className="mb-4">Contact Information</h5>
+          <div className="ct-email-row">
+            <a href={`mailto:${profile.email}`} className="ct-email">
+              {profile.email}
+            </a>
+            <button type="button" className="icon-btn ct-copy" onClick={copyEmail} aria-label="Copy email address">
+              {copied ? <FiCheck /> : <FiCopy />}
+            </button>
+            <span className="ct-copied" aria-live="polite">
+              {copied ? "Copied" : ""}
+            </span>
+          </div>
 
-                {/* Email (horizontal) */}
-                <div className="d-flex align-items-center mb-3">
-                  <div className="icon-pill me-3">
-                    <Mail size={18} />
-                  </div>
-                  <div className="w-100">
-                    <div className="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center">
-                      <span className="fw-medium me-sm-3">Email:</span>
-                      <span className="text-sm-end">
-                        <a
-                          href="mailto:suhridpaul6@gmail.com"
-                          className="link-contrast me-2 d-inline-block"
-                        >
-                          suhridpaul6@gmail.com
-                        </a>
-                        
-                      </span>
-                    </div>
-                  </div>
-                </div>
+          <ul className="ct-tiles">
+            <li>
+              <a href={profile.links.linkedin} target="_blank" rel="noreferrer">
+                <FiLinkedin aria-hidden="true" />
+                <span>LinkedIn</span>
+              </a>
+            </li>
+            <li>
+              <a href={profile.links.github} target="_blank" rel="noreferrer">
+                <FiGithub aria-hidden="true" />
+                <span>GitHub</span>
+              </a>
+            </li>
+            <li>
+              <a href={`tel:${profile.phone.replace(/\s/g, "")}`}>
+                <FiPhone aria-hidden="true" />
+                <span>{profile.phone}</span>
+              </a>
+            </li>
+            <li>
+              <Link to="/resume">
+                <FiFileText aria-hidden="true" />
+                <span>Resume</span>
+              </Link>
+            </li>
+          </ul>
+          <p className="ct-where">
+            <FiMapPin aria-hidden="true" /> {profile.location}
+          </p>
+        </header>
 
-                {/* Phone (horizontal) */}
-                <div className="d-flex align-items-center mb-3">
-                  <div className="icon-pill me-3">
-                    <Phone size={18} />
-                  </div>
-                  <div className="w-100 d-flex justify-content-between align-items-center">
-                    <span className="fw-medium me-3">Phone:</span>
-                    <a href="tel:+918013549912" className="link-contrast">
-                      +91 8013549912
-                    </a>
-                  </div>
-                </div>
+        <form className="ct-form" onSubmit={handleSubmit}>
+          <div className="ct-form-head">
+            <h2>Or send a message here</h2>
+            <p>It goes straight to my inbox, and I'll reply to the address you give.</p>
+          </div>
 
-                {/* Location (horizontal) */}
-                <div className="d-flex align-items-center">
-                  <div className="icon-pill me-3">
-                    <MapPin size={18} />
-                  </div>
-                  <div className="w-100 d-flex justify-content-between align-items-center">
-                    <span className="fw-medium me-3">Location:</span>
-                    <span className="text-muted">Kolkata, India</span>
-                  </div>
-                </div>
+          <fieldset className="ct-topics">
+            <legend>What's it about?</legend>
+            {TOPICS.map((t) => (
+              <label key={t} className={`chip ${form.topic === t ? "is-active" : ""}`}>
+                <input
+                  type="radio"
+                  name="topic"
+                  value={t}
+                  checked={form.topic === t}
+                  onChange={update("topic")}
+                />
+                {t}
+              </label>
+            ))}
+          </fieldset>
 
-                <hr className="my-4 opacity-25" />
+          <div className="ct-fields">
+            <label>
+              Your name
+              <input type="text" required value={form.name} onChange={update("name")} autoComplete="name" />
+            </label>
+            <label>
+              Your email
+              <input type="email" required value={form.email} onChange={update("email")} autoComplete="email" />
+            </label>
+          </div>
+          <label>
+            Message
+            <textarea required rows={6} value={form.message} onChange={update("message")} />
+          </label>
 
-                {/* Social */}
-                <h6 className="mb-3">Connect with me</h6>
-                <div className="d-flex gap-2">
-                  <a
-                    className="social-btn"
-                    href="https://linkedin.com/in/suhridp"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="LinkedIn"
-                  >
-                    <Linkedin size={18} />
-                  </a>
-                  <a
-                    className="social-btn"
-                    href="https://twitter.com/"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Twitter/X"
-                  >
-                    <Twitter size={18} />
-                  </a>
-                  <a
-                    className="social-btn"
-                    href="https://instagram.com/"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Instagram"
-                  >
-                    <Instagram size={18} />
-                  </a>
-                  <a
-                    className="social-btn"
-                    href="https://twitch.tv/"
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="Twitch"
-                  >
-                    <Twitch size={18} />
-                  </a>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
-
-          {/* Right: Form (horizontal) */}
-          <Col md={7}>
-            <Card className="contact-card">
-              <Card.Body>
-                <h5 className="mb-4">Send a Message</h5>
-
-                <Form onSubmit={handleSubmit}>
-                  <Form.Group as={Row} className="mb-3" controlId="name">
-                    <Form.Label column sm={4} className="text-sm-end">
-                      Your Name
-                    </Form.Label>
-                    <Col sm={8}>
-                      <Form.Control
-                        type="text"
-                        required
-                        placeholder="Your Name..."
-                      />
-                    </Col>
-                  </Form.Group>
-
-                  <Form.Group as={Row} className="mb-3" controlId="email">
-                    <Form.Label column sm={4} className="text-sm-end">
-                      Your Email
-                    </Form.Label>
-                    <Col sm={8}>
-                      <Form.Control
-                        type="email"
-                        required
-                        placeholder="you@example.com"
-                      />
-                    </Col>
-                  </Form.Group>
-
-                  <Form.Group as={Row} className="mb-4" controlId="message">
-                    <Form.Label column sm={4} className="text-sm-end">
-                      Your Message
-                    </Form.Label>
-                    <Col sm={8}>
-                      <Form.Control
-                        as="textarea"
-                        rows={4}
-                        required
-                        placeholder="Hello, I'd like to talk about..."
-                      />
-                    </Col>
-                  </Form.Group>
-
-                  <div className="text-end">
-                    <Button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="cosmic-button"
-                    >
-                      {isSubmitting ? "Sending..." : "Send Message"}
-                      <Send size={16} className="ms-2" />
-                    </Button>
-                  </div>
-
-                  {sent && (
-                    <div className="alert alert-success mt-3 py-2 mb-0">
-                      Message sent! I’ll get back to you soon.
-                    </div>
-                  )}
-                </Form>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
+          <div className="ct-submit">
+            <button type="submit" className="btn-solid" disabled={status === "sending"}>
+              {status === "sending" ? "Sending…" : "Send message"}
+              <FiSend aria-hidden="true" style={{ marginLeft: "0.5rem" }} />
+            </button>
+            <div aria-live="polite" className="ct-status">
+              {status === "sent" && (
+                <p className="form-note form-note--ok">Message sent. I'll get back to you by email.</p>
+              )}
+              {status === "error" && (
+                <p className="form-note form-note--err">
+                  Your message wasn't sent: {error} You can <a href={mailtoHref}>email me directly</a>{" "}
+                  instead.
+                </p>
+              )}
+            </div>
+          </div>
+        </form>
       </Container>
     </section>
   );

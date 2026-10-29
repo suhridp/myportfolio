@@ -1,69 +1,35 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import {
-  AiFillGithub,
-  AiOutlineTwitter,
-  AiFillInstagram,
-} from "react-icons/ai";
-import { FaLinkedinIn } from "react-icons/fa";
+import { Container } from "react-bootstrap";
+import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
+import profile from "../data/profile";
 
 function Footer() {
-  let date = new Date();
-  let year = date.getFullYear();
+  const year = new Date().getFullYear();
   return (
-    <Container fluid className="footer">
-      <Row>
-        <Col md="4" className="footer-copywright">
-          <h3>Designed and Developed by Suhrid Behari Paul</h3>
-        </Col>
-        <Col md="4" className="footer-copywright">
-          <h3>Copyright © {year} SBP</h3>
-        </Col>
-        <Col md="4" className="footer-body">
-          <ul className="footer-icons">
-            <li className="social-icons">
-              <a
-                href="https://github.com/suhridp"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <AiFillGithub />
-              </a>
-            </li>
-            <li className="social-icons">
-              <a
-                href="https://twitter.com/"
-                style={{ color: "white" }}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <AiOutlineTwitter />
-              </a>
-            </li>
-            <li className="social-icons">
-              <a
-                href="https://www.linkedin.com/in/suhridpaul/"
-                style={{ color: "white" }}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FaLinkedinIn />
-              </a>
-            </li>
-            <li className="social-icons">
-              <a
-                href="https://www.instagram.com/"
-                style={{ color: "white" }}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <AiFillInstagram />
-              </a>
-            </li>
-          </ul>
-        </Col>
-      </Row>
-    </Container>
+    <footer className="site-footer">
+      <Container className="site-footer-inner">
+        <p>
+          © {year} {profile.name}
+        </p>
+        <ul className="site-footer-links">
+          <li>
+            <a href={profile.links.github} target="_blank" rel="noreferrer" aria-label="GitHub">
+              <FiGithub />
+            </a>
+          </li>
+          <li>
+            <a href={profile.links.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn">
+              <FiLinkedin />
+            </a>
+          </li>
+          <li>
+            <a href={`mailto:${profile.email}`} aria-label="Email">
+              <FiMail />
+            </a>
+          </li>
+        </ul>
+      </Container>
+    </footer>
   );
 }
 
