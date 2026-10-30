@@ -64,7 +64,7 @@ function Home() {
         <div className="strip-block">
           <h2>Away from the screen</h2>
           <ul className="strip-list">
-            {hobbies.map((h) => (
+            {hobbies.filter((h) => h.entries.length > 0).map((h) => (
               <li key={h.id}>
                 <Link to={`/hobbies?tab=${h.id}`}>
                   <strong>{h.name}</strong>

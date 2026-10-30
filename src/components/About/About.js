@@ -122,10 +122,10 @@ function About() {
         <div className="about-block about-offline">
           <h2 className="block-title">Outside work</h2>
           <p>
-            I cook a lot and take photos when I'm out. I keep both on a page of their own.
+            I cook a lot, mostly desserts: cakes, cheesecakes and Indian sweets. I keep them on a page of their own.
           </p>
           <Link to="/hobbies" className="btn-ghost">
-            See my cooking and photos
+            See what I've cooked
           </Link>
         </div>
       </Container>

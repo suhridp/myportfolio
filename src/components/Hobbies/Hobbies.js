@@ -3,7 +3,10 @@ import { Container } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
 import { FiX, FiChevronLeft, FiChevronRight, FiCamera, FiMapPin, FiImage } from "react-icons/fi";
 import { GiCookingPot } from "react-icons/gi";
-import hobbies from "../../data/hobbies";
+import allHobbies from "../../data/hobbies";
+
+// A hobby with no entries yet stays hidden until something is added.
+const hobbies = allHobbies.filter((h) => h.entries.length > 0);
 
 const ICONS = { cooking: GiCookingPot, photography: FiCamera };
 
@@ -220,8 +223,9 @@ function Gallery({ hobby }) {
 function Hobbies() {
   const [params, setParams] = useSearchParams();
   const requested = params.get("tab");
-  const activeId = hobbies.some((h) => h.id === requested) ? requested : hobbies[0].id;
+  const activeId = hobbies.some((h) => h.id === requested) ? requested : hobbies[0]?.id;
   const hobby = hobbies.find((h) => h.id === activeId);
+  if (!hobby) return null;
 
   return (
     <section className="hobby-section page-section">
@@ -234,6 +238,7 @@ function Hobbies() {
           </p>
         </header>
 
+        {hobbies.length > 1 && (
         <div className="hb-tabs" role="tablist" aria-label="Hobbies">
           {hobbies.map((h) => {
             const Icon = ICONS[h.id] || FiCamera;
@@ -255,8 +260,16 @@ function Hobbies() {
             );
           })}
         </div>
+        )}
 
-        <div role="tabpanel" id={`panel-${hobby.id}`} aria-labelledby={`tab-${hobby.id}`} className="hb-panel">
+        <div
+          {...(hobbies.length > 1
+            ? { role: "tabpanel", "aria-labelledby": `tab-${hobby.id}` }
+            : {})}
+          id={`panel-${hobby.id}`}
+          className="hb-panel"
+        >
+          {hobbies.length === 1 && <h2 className="block-title">{hobby.name}</h2>}
           <p className="hb-blurb">{hobby.blurb}</p>
           {hobby.layout === "gallery" ? <Gallery hobby={hobby} /> : <Dishes hobby={hobby} />}
         </div>
