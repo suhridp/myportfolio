@@ -998,3 +998,69 @@ a.contact-row:hover { color: var(--accent) !important; }
   .ct-submit .btn-solid { width: 100%; }
   .ct-lede { font-size: 1.02rem; }
 }
+
+/* ---------- Cooking: dish cards ---------- */
+.hb-dishes {
+  list-style: none; padding: 0; margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+  gap: 1.1rem;
+}
+.hb-dish {
+  display: flex; flex-direction: column;
+  width: 100%; height: 100%;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--surface);
+  color: var(--text);
+  text-align: left;
+  cursor: zoom-in;
+  transition: border-color 0.2s ease;
+}
+.hb-dish:hover { border-color: var(--accent); }
+.hb-dish-media {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  background: var(--surface-2);
+  overflow: hidden;
+}
+.hb-dish-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+.hb-dish:hover .hb-dish-media img { transform: scale(1.03); }
+.hb-dish-media .hb-empty { position: absolute; inset: 0; }
+.hb-dish-count {
+  position: absolute; top: 0.6rem; right: 0.6rem;
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(8, 11, 22, 0.72);
+  color: #fff !important;
+  font-size: 0.8rem; font-weight: 600;
+}
+.hb-dish-body { display: flex; flex-direction: column; gap: 0.45rem; padding: 1rem 1.1rem 1.15rem; }
+.hb-dish-top { display: flex; justify-content: space-between; align-items: baseline; gap: 0.75rem; }
+.hb-dish-top strong {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 1.2rem; font-weight: 700; letter-spacing: -0.015em;
+  color: var(--text) !important;
+}
+.hb-dish-top time { flex: none; font-size: 0.85rem; color: var(--accent) !important; font-weight: 600; }
+.hb-dish-notes { color: var(--muted) !important; font-size: 0.95rem; line-height: 1.5; }
+.hb-dish-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.15rem; }
+.hb-dish-tags span {
+  font-size: 0.78rem;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--muted) !important;
+}
+@media (max-width: 640px) {
+  .hb-dishes { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.65rem; }
+  .hb-dish { border-radius: 14px; }
+  .hb-dish-body { padding: 0.7rem 0.75rem 0.85rem; gap: 0.3rem; }
+  .hb-dish-top { flex-direction: column; gap: 0.1rem; }
+  .hb-dish-top strong { font-size: 1rem; }
+  .hb-dish-notes, .hb-dish-tags { display: none; }
+}

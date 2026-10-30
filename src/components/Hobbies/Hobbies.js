@@ -1,17 +1,38 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { Container } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
-import { FiX, FiChevronLeft, FiChevronRight, FiCamera, FiMapPin } from "react-icons/fi";
+import { FiX, FiChevronLeft, FiChevronRight, FiCamera, FiMapPin, FiImage } from "react-icons/fi";
 import { GiCookingPot } from "react-icons/gi";
 import hobbies from "../../data/hobbies";
 
 const ICONS = { cooking: GiCookingPot, photography: FiCamera };
 
-function formatDate(iso) {
+function formatDate(iso, { day = true } = {}) {
   if (!iso) return "";
   const d = new Date(iso + "T00:00:00");
   if (isNaN(d)) return iso;
-  return d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+  return d.toLocaleDateString("en-IN", {
+    ...(day ? { day: "numeric" } : {}),
+    month: "short",
+    year: "numeric",
+  });
+}
+
+// An entry can have `images: [...]` or a single `image`.
+const photosOf = (e) => (e.images && e.images.length ? e.images : e.image ? [e.image] : []);
+
+// Uses the small "-sm" version when it exists, falling back to the full image.
+function Thumb({ src, alt }) {
+  const small = src.replace(/(\.[a-z]+)$/i, "-sm$1");
+  const [current, setCurrent] = useState(small);
+  return (
+    <img
+      src={current}
+      alt={alt}
+      loading="lazy"
+      onError={() => current !== src && setCurrent(src)}
+    />
+  );
 }
 
 function EmptyFrame({ hobbyId }) {
@@ -24,53 +45,13 @@ function EmptyFrame({ hobbyId }) {
   );
 }
 
-function Journal({ hobby }) {
-  return (
-    <ol className="hb-journal">
-      {hobby.entries.map((e) => (
-        <li key={e.title + e.date} className="hb-entry">
-          <div className="hb-entry-media">
-            {e.image ? <img src={e.image} alt={e.title} loading="lazy" /> : <EmptyFrame hobbyId={hobby.id} />}
-          </div>
-          <div className="hb-entry-body">
-            <time dateTime={e.date}>{formatDate(e.date)}</time>
-            <h3>{e.title}</h3>
-            {e.notes && <p>{e.notes}</p>}
-            {e.tags?.length > 0 && (
-              <ul className="pj-stack">
-                {e.tags.map((t) => (
-                  <li key={t}>{t}</li>
-                ))}
-              </ul>
-            )}
-            {e.link && (
-              <a href={e.link} target="_blank" rel="noreferrer" className="pj-link">
-                Read the recipe
-              </a>
-            )}
-          </div>
-        </li>
-      ))}
-    </ol>
-  );
-}
-
-function Gallery({ hobby }) {
-  const [active, setActive] = useState(null);
-  const items = hobby.entries;
-
-  const close = useCallback(() => setActive(null), []);
-  const step = useCallback(
-    (dir) => setActive((i) => (i === null ? i : (i + dir + items.length) % items.length)),
-    [items.length]
-  );
-
+/* ---------- Lightbox: steps through a list of slides ---------- */
+function Lightbox({ slides, index, onClose, onStep, hobbyId }) {
   useEffect(() => {
-    if (active === null) return;
     const onKey = (e) => {
-      if (e.key === "Escape") close();
-      if (e.key === "ArrowRight") step(1);
-      if (e.key === "ArrowLeft") step(-1);
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowRight") onStep(1);
+      if (e.key === "ArrowLeft") onStep(-1);
     };
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
@@ -78,64 +59,159 @@ function Gallery({ hobby }) {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
     };
-  }, [active, close, step]);
+  }, [onClose, onStep]);
 
-  const current = active !== null ? items[active] : null;
+  const s = slides[index];
+  return (
+    <div className="hb-lightbox" role="dialog" aria-modal="true" aria-label={s.title} onClick={onClose}>
+      <figure onClick={(e) => e.stopPropagation()}>
+        {s.src ? <img src={s.src} alt={s.title} /> : <EmptyFrame hobbyId={hobbyId} />}
+        <figcaption>
+          <strong>{s.title}</strong>
+          <span className="hb-exif">
+            {s.location && (
+              <span>
+                <FiMapPin aria-hidden="true" /> {s.location}
+              </span>
+            )}
+            {s.camera && (
+              <span>
+                <FiCamera aria-hidden="true" /> {s.camera}
+              </span>
+            )}
+            {s.date && <time dateTime={s.date}>{formatDate(s.date)}</time>}
+            {s.count > 1 && (
+              <span>
+                Photo {s.pos} of {s.count}
+              </span>
+            )}
+          </span>
+          {s.notes && <p>{s.notes}</p>}
+        </figcaption>
+      </figure>
+      <button type="button" className="hb-lb-btn hb-lb-close" onClick={onClose} aria-label="Close">
+        <FiX />
+      </button>
+      {slides.length > 1 && (
+        <>
+          <button type="button" className="hb-lb-btn hb-lb-prev" aria-label="Previous photo"
+            onClick={(e) => { e.stopPropagation(); onStep(-1); }}>
+            <FiChevronLeft />
+          </button>
+          <button type="button" className="hb-lb-btn hb-lb-next" aria-label="Next photo"
+            onClick={(e) => { e.stopPropagation(); onStep(1); }}>
+            <FiChevronRight />
+          </button>
+        </>
+      )}
+    </div>
+  );
+}
+
+function useLightbox(length) {
+  const [active, setActive] = useState(null);
+  const close = useCallback(() => setActive(null), []);
+  const step = useCallback(
+    (dir) => setActive((i) => (i === null ? i : (i + dir + length) % length)),
+    [length]
+  );
+  return { active, open: setActive, close, step };
+}
+
+/* ---------- Dishes: photo cards; a card opens all photos of that dish ---------- */
+function Dishes({ hobby }) {
+  const [dish, setDish] = useState(null);
+  const photos = dish ? photosOf(dish) : [];
+  const lb = useLightbox(photos.length || 1);
+
+  const slides = dish
+    ? (photos.length ? photos : [""]).map((src, i) => ({
+        src,
+        title: dish.title,
+        date: dish.date,
+        notes: dish.notes,
+        pos: i + 1,
+        count: photos.length,
+      }))
+    : [];
+
+  const openDish = (e) => {
+    setDish(e);
+    lb.open(0);
+  };
+  const close = () => {
+    lb.close();
+    setDish(null);
+  };
+
+  return (
+    <>
+      <ul className="hb-dishes">
+        {hobby.entries.map((e) => {
+          const p = photosOf(e);
+          return (
+            <li key={e.title}>
+              <button type="button" className="hb-dish" onClick={() => openDish(e)}>
+                <span className="hb-dish-media">
+                  {p.length ? <Thumb src={p[0]} alt={e.title} /> : <EmptyFrame hobbyId={hobby.id} />}
+                  {p.length > 1 && (
+                    <span className="hb-dish-count">
+                      <FiImage aria-hidden="true" /> {p.length}
+                    </span>
+                  )}
+                </span>
+                <span className="hb-dish-body">
+                  <span className="hb-dish-top">
+                    <strong>{e.title}</strong>
+                    {e.date && <time dateTime={e.date}>{formatDate(e.date, { day: false })}</time>}
+                  </span>
+                  {e.notes && <span className="hb-dish-notes">{e.notes}</span>}
+                  {e.tags?.length > 0 && (
+                    <span className="hb-dish-tags">
+                      {e.tags.map((t) => (
+                        <span key={t}>{t}</span>
+                      ))}
+                    </span>
+                  )}
+                </span>
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+      {dish && lb.active !== null && (
+        <Lightbox slides={slides} index={lb.active} onClose={close} onStep={lb.step} hobbyId={hobby.id} />
+      )}
+    </>
+  );
+}
+
+/* ---------- Gallery: a grid of single photos ---------- */
+function Gallery({ hobby }) {
+  const items = hobby.entries;
+  const lb = useLightbox(items.length);
+  const slides = items.map((e) => ({ ...e, src: photosOf(e)[0] || "" }));
 
   return (
     <>
       <ul className="hb-gallery">
-        {items.map((e, i) => (
-          <li key={e.title + e.date}>
-            <button type="button" className="hb-shot" onClick={() => setActive(i)}>
-              {e.image ? <img src={e.image} alt={e.title} loading="lazy" /> : <EmptyFrame hobbyId={hobby.id} />}
-              <span className="hb-shot-caption">
-                <strong>{e.title}</strong>
-                <span>{[e.location, formatDate(e.date)].filter(Boolean).join(", ")}</span>
-              </span>
-            </button>
-          </li>
-        ))}
+        {items.map((e, i) => {
+          const src = photosOf(e)[0];
+          return (
+            <li key={e.title + e.date}>
+              <button type="button" className="hb-shot" onClick={() => lb.open(i)}>
+                {src ? <Thumb src={src} alt={e.title} /> : <EmptyFrame hobbyId={hobby.id} />}
+                <span className="hb-shot-caption">
+                  <strong>{e.title}</strong>
+                  <span>{[e.location, formatDate(e.date)].filter(Boolean).join(", ")}</span>
+                </span>
+              </button>
+            </li>
+          );
+        })}
       </ul>
-
-      {current && (
-        <div className="hb-lightbox" role="dialog" aria-modal="true" aria-label={current.title} onClick={close}>
-          <figure onClick={(e) => e.stopPropagation()}>
-            {current.image ? <img src={current.image} alt={current.title} /> : <EmptyFrame hobbyId={hobby.id} />}
-            <figcaption>
-              <strong>{current.title}</strong>
-              <span className="hb-exif">
-                {current.location && (
-                  <span>
-                    <FiMapPin aria-hidden="true" /> {current.location}
-                  </span>
-                )}
-                {current.camera && (
-                  <span>
-                    <FiCamera aria-hidden="true" /> {current.camera}
-                  </span>
-                )}
-                {current.date && <time dateTime={current.date}>{formatDate(current.date)}</time>}
-              </span>
-              {current.notes && <p>{current.notes}</p>}
-            </figcaption>
-          </figure>
-          <button type="button" className="hb-lb-btn hb-lb-close" onClick={close} aria-label="Close">
-            <FiX />
-          </button>
-          {items.length > 1 && (
-            <>
-              <button type="button" className="hb-lb-btn hb-lb-prev" aria-label="Previous photo"
-                onClick={(e) => { e.stopPropagation(); step(-1); }}>
-                <FiChevronLeft />
-              </button>
-              <button type="button" className="hb-lb-btn hb-lb-next" aria-label="Next photo"
-                onClick={(e) => { e.stopPropagation(); step(1); }}>
-                <FiChevronRight />
-              </button>
-            </>
-          )}
-        </div>
+      {lb.active !== null && (
+        <Lightbox slides={slides} index={lb.active} onClose={lb.close} onStep={lb.step} hobbyId={hobby.id} />
       )}
     </>
   );
@@ -182,7 +258,7 @@ function Hobbies() {
 
         <div role="tabpanel" id={`panel-${hobby.id}`} aria-labelledby={`tab-${hobby.id}`} className="hb-panel">
           <p className="hb-blurb">{hobby.blurb}</p>
-          {hobby.layout === "gallery" ? <Gallery hobby={hobby} /> : <Journal hobby={hobby} />}
+          {hobby.layout === "gallery" ? <Gallery hobby={hobby} /> : <Dishes hobby={hobby} />}
         </div>
       </Container>
     </section>

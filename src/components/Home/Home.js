@@ -69,7 +69,7 @@ function Home() {
                 <Link to={`/hobbies?tab=${h.id}`}>
                   <strong>{h.name}</strong>
                   <span>
-                    {h.entries.length} {h.layout === "gallery" ? "photos" : "entries"}
+                    {h.entries.length} {h.layout === "gallery" ? "photos" : "dishes"}
                   </span>
                 </Link>
               </li>
